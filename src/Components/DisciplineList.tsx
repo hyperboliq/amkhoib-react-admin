@@ -1,7 +1,9 @@
 // DisciplineList.tsx
 import React, { useEffect, useState } from 'react';
-import { List, Datagrid, TextField, NumberField, DateField, TextInput, DateInput, NumberInput, Create, SimpleForm, SelectInput } from 'react-admin';
+import { Grid, Paper } from '@mui/material';
+import { List, Datagrid, TextField, NumberField, DateField, TextInput, DateInput, NumberInput, Create, SimpleForm, SelectInput, Show, SimpleShowLayout, Edit, Form, Toolbar } from 'react-admin';
 import supabaseClient from '../supabaseClient'; 
+import CustomSaveButton from '../Buttons/CustomSaveButton';
 
 interface Choice {
     id: any;
@@ -15,6 +17,7 @@ const filters = [
     <TextInput source="name" />
 ];
 
+// This is my list
 export const DisciplineList = () => (
     <List filters={filters}>
         <Datagrid>
@@ -26,6 +29,7 @@ export const DisciplineList = () => (
     </List>
 );
 
+// This is my Create/insert
 export const DisciplineCreate = () => {
     const [choices, setChoices] = useState<Choice[]>([]);
     useEffect(() => {
@@ -33,12 +37,12 @@ export const DisciplineCreate = () => {
             try {
                 const { data: discipline, error } = await supabaseClient
                     .from('disciplines')
-                    .select('parent_id, name');
+                    .select('id, parent_id, name');
 
                 if (error) throw error;
 
                 const transformedChoices = discipline
-                    .filter(disciplines => disciplines.parent_id === 0) // Filter by parent_id === 0
+                    .filter(disciplines => disciplines.parent_id != disciplines.id) 
                     .map(discipline => ({
                         id: discipline.parent_id,
                         name: discipline.name,
@@ -54,31 +58,47 @@ export const DisciplineCreate = () => {
 
     return (
         <Create>
-            <SimpleForm>
-                <DateInput source="created_at" />
-                <SelectInput source="parent_id" choices={choices} optionText="name" optionValue="id" />
-                <TextInput source="name" />
-            </SimpleForm>
+            <Form>
+                <Paper elevation={3} sx={{ padding: 1, borderRadius: 0 }}>
+                    <Grid container spacing={0} sx={{ padding: 3 }}>
+                        <Grid item xs={12}>
+                            <DateInput source="created_at" />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <SelectInput source="parent_id" choices={choices} optionText="name" optionValue="id" label="Select Discipline"/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextInput source="name" />
+                        </Grid>
+                    </Grid>
+                    <Toolbar sx={{ justifyContent: 'center' }}>
+                        <CustomSaveButton label="Save Discipline" />
+                    </Toolbar>
+                </Paper>
+            </Form>
         </Create>
     );
 };
 
-// export const DisciplineCreate = () => (
-//     <Create>
-//         <SimpleForm>
-//             <DateInput source="created_at" />
-//             <NumberInput source="parent_id" />
-//             <TextInput source="name" />
-//         </SimpleForm>
-//     </Create>
-// );
+    // This is my Edit
+    export const DisciplineEdit = () => (
+        <Edit>
+            <SimpleForm>
+                <DateInput source="created_at" />
+                <NumberInput source="parent_id" />
+                <TextInput source="name" />
+            </SimpleForm>
+        </Edit>
+    );
 
-// export const DisciplineCreate = () => (
-//     <Create>
-//         <SimpleForm>
-//             <DateInput source="created_at" />
-//             <NumberInput source="parent_id" />
-//             <TextInput source="name" />
-//         </SimpleForm>
-//     </Create>
-// );
+// This is My show
+export const DisciplineShow = () => (
+    <Show>
+        <SimpleShowLayout>
+            <TextField source="id" />
+            <DateField source="created_at" />
+            <NumberField source="parent_id" />
+            <TextField source="name" />
+        </SimpleShowLayout>
+    </Show>
+);
