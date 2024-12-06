@@ -1,34 +1,38 @@
 // app.tsx
+import './global.css';
 import React from 'react';
-import { Admin, Resource, CustomRoutes, AppBar, ToggleThemeButton, nanoLightTheme, nanoDarkTheme, DashboardMenuItem } from 'react-admin';
+import { Admin, Resource, CustomRoutes, CreateParams } from 'react-admin';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
 import { CreateGuesser, EditGuesser, ForgotPasswordPage, ListGuesser, LoginPage, SetPasswordPage, ShowGuesser, defaultI18nProvider, supabaseDataProvider, supabaseAuthProvider, AdminGuesser} from 'ra-supabase'; 
-// import { lightTheme, darkTheme } from './themes';
-import themes from "./themes"
-import CustomLayout from './Layout/MyLayout';
-import { Category_documentList } from './Components/Category_documentList';
-import { Placeholder_typeList } from './Components/Placeholder_typeList';
-import { Document_placeholderList } from './Components/Document_placeholderList';
-import { PlaceholderList } from './Components/PlaceholderList';
-import { ClientList } from './Components/ClientList';
-import { Zzz_documentList } from './Components/Zzz_documentList';
-import { ContractorList } from './Components/ContractorList';
-import { ProjectList } from './Components/ProjectList';
-import { Field_typeList } from './Components/Field_typeList';
-import { User_roleList } from './Components/User_roleList';
-import { Contractor_disciplineList } from './Components/Contractor_disciplineList';
-import { Contractor_typeList } from './Components/Contractor_typeList';
-import { DocumentCreate, DocumentList, DocumentShow } from './Components/DocumentList';
-import { StatusList } from './Components/StatusList';
-import { UserList } from './Components/UserList';
-import { Project_documentList } from './Components/Project_documentList';
-import { DisciplineEdit, DisciplineList, DisciplineShow } from './Components/DisciplineList';
-import { Discipline_documentList } from './Components/Discipline_documentList';
-import { CategoryList } from './Components/CategoryList';
-import { NotificationList } from './Components/NotificationList';
-import { DisciplineCreate } from './Components/DisciplineList';
-import { Dashboard } from './Components/dashboard';
+import { Category_documentList } from './Supabase-Components/Category_documentList';
+import { Placeholder_typeList } from './Supabase-Components/Placeholder_typeList';
+import { Document_placeholderList } from './Supabase-Components/Document_placeholderList';
+import { PlaceholderList } from './Supabase-Components/PlaceholderList';
+import { ClientList } from './Supabase-Components/ClientList';
+import { Zzz_documentList } from './Supabase-Components/Zzz_documentList';
+import { ContractorList } from './Supabase-Components/ContractorList';
+import { ProjectList } from './Supabase-Components/ProjectList';
+import { Field_typeList } from './Supabase-Components/Field_typeList';
+import { User_roleList } from './Supabase-Components/User_roleList';
+import { Contractor_disciplineList } from './Supabase-Components/Contractor_disciplineList';
+import { Contractor_typeList } from './Supabase-Components/Contractor_typeList';
+import { DocumentCreate, DocumentEdit, DocumentList, DocumentShow } from './Supabase-Components/DocumentList';
+import { StatusList } from './Supabase-Components/StatusList';
+import { UserList } from './Supabase-Components/UserList';
+import { Project_documentList } from './Supabase-Components/Project_documentList';
+import { DisciplineEdit, DisciplineList, DisciplineShow } from './Supabase-Components/DisciplineList';
+import { Discipline_documentList } from './Supabase-Components/Discipline_documentList';
+import { CategoryList } from './Supabase-Components/CategoryList';
+import { NotificationList } from './Supabase-Components/NotificationList';
+import { DisciplineCreate } from './Supabase-Components/DisciplineList';
+import { defaultLightTheme, defaultDarkTheme } from './themes';
+// import ThemeToggler from './Layout-Components/ThemeToggler';
+import MyLayout from './Layout-Components/MyLayout';
+import { Dashboard } from './Supabase-Components/Dashboard';
+import Settings from './Supabase-Components/Settings';
+import CustomLogin from './Auth-Components/CustomLogin';
+
 
 const instanceUrl = "https://api.amkhoib.org";
 const apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICJyb2xlIjogImFub24iLAogICJpc3MiOiAic3VwYWJhc2UiLAogICJpYXQiOiAxNzMwOTMwNDAwLAogICJleHAiOiAxODg4Njk2ODAwCn0.maA2KzOXlgqKagXyoq6OnJOYSEm8Em206VS3NFRPEk8";
@@ -36,27 +40,21 @@ const supabaseClient = createClient(instanceUrl, apiKey);
 const dataProvider = supabaseDataProvider({ instanceUrl, apiKey, supabaseClient });
 const authProvider = supabaseAuthProvider(supabaseClient, {});
 
-// // Custom AppBar with Theme Toggle
-// const MyAppBar: React.FC = (props) => (
-//     <AppBar {...props}>
-//         <ToggleThemeButton />
-//     </AppBar>
-// );
-
 export const App: React.FC = () => (
     <BrowserRouter>
+    {/* <ThemeToggler /> */}
         <Admin
+            layout={MyLayout}  // Use your custom layout
+            theme={defaultLightTheme}  // Start theme
+            // darkTheme={defaultDarkTheme}
             dataProvider={dataProvider}
             authProvider={authProvider}
             i18nProvider={defaultI18nProvider}
-            loginPage={LoginPage}
-            // theme={lightTheme}
-            // darkTheme={darkTheme}
+            loginPage={CustomLogin}
             dashboard={Dashboard}
-            {...themes}
-            // layout={CustomLayout} // Set custom layout
         >
-            <Resource name="documents" list={DocumentList} edit={EditGuesser} create={DocumentCreate} show={DocumentShow} />
+
+            <Resource name="documents" list={DocumentList} edit={DocumentEdit} create={DocumentCreate} show={DocumentShow} />
             <Resource name="categories" list={CategoryList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="category_documents" list={Category_documentList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="placeholder_types" list={Placeholder_typeList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
@@ -77,9 +75,14 @@ export const App: React.FC = () => (
             <Resource name="discipline_documents" list={Discipline_documentList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="notifications" list={NotificationList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
 
+            <CustomRoutes>
+                <Route path="/settings" element={<Settings />} /> {/* Add the route for settings */}
+            </CustomRoutes>
+
             <CustomRoutes noLayout>
                 <Route path={SetPasswordPage.path} element={<SetPasswordPage />} />
                 <Route path={ForgotPasswordPage.path} element={<ForgotPasswordPage />} />
+                {/* <Route path="/settings" element={<Settings />} /> */}
             </CustomRoutes>
         </Admin>
     </BrowserRouter>

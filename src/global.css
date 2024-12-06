@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'CustomFont';
+    src: url('./path/to/font.woff2') format('woff2');
+}
+
+
+.css-1o488ob-MuiInputBase-root-MuiFilledInput-root {
+    background-color: white !important;
+    border-radius: 8px;
+}
+
+.css-9lo51-MuiDrawer-docked-RaSidebar-root .RaSidebar-fixed {
+    background-color: #071135;
+}
+
+.css-xp8f1q-MuiButtonBase-root-MuiMenuItem-root-RaMenuItemLink-root {
+    min-height: auto;
+    color: white;
+}
