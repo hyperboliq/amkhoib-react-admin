@@ -81,8 +81,18 @@ export const defaultLightTheme: RaThemeOptions = deepmerge(
         components: {
             MuiFilledInput: {
                 styleOverrides: {
-                    root: { backgroundColor: '#f1f4fb' },
-                    '&$disabled': { backgroundColor: 'rgba(0, 0, 0, 0.04)' },
+                    root: {
+                        backgroundColor: 'white',
+                        '&:hover': {
+                            backgroundColor: 'white',
+                        },
+                        '&$disabled': {
+                            backgroundColor: 'white',
+                        },
+                        '&.Mui-focused': {
+                            backgroundColor: 'white',
+                        },
+                    },
                 },
             },
         },

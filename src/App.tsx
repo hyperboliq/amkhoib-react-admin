@@ -5,6 +5,7 @@ import { Admin, Resource, CustomRoutes, CreateParams } from 'react-admin';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
 import { CreateGuesser, EditGuesser, ForgotPasswordPage, ListGuesser, LoginPage, SetPasswordPage, ShowGuesser, defaultI18nProvider, supabaseDataProvider, supabaseAuthProvider, AdminGuesser} from 'ra-supabase'; 
+import { CustomForgotPasswordPage } from './Auth-Components/CustomForgotPassword';
 import { Category_documentList } from './Supabase-Components/Category_documentList';
 import { Placeholder_typeList } from './Supabase-Components/Placeholder_typeList';
 import { Document_placeholderList } from './Supabase-Components/Document_placeholderList';
@@ -81,7 +82,8 @@ export const App: React.FC = () => (
 
             <CustomRoutes noLayout>
                 <Route path={SetPasswordPage.path} element={<SetPasswordPage />} />
-                <Route path={ForgotPasswordPage.path} element={<ForgotPasswordPage />} />
+                {/* <Route path={ForgotPasswordPage.path} element={<ForgotPasswordPage />} /> */}
+                <Route path={CustomForgotPasswordPage.path} element={<CustomForgotPasswordPage />} />
                 {/* <Route path="/settings" element={<Settings />} /> */}
             </CustomRoutes>
         </Admin>

@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 import { useLogin } from 'react-admin';
 import { TextField, Button, Container, Box, Typography } from '@mui/material';
-
-// Import the logo image
+import { useNavigate } from 'react-router-dom';  // Import useNavigate
 import logo from '../media/A-icon.png';
 
 const CustomLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const login = useLogin();
+    const navigate = useNavigate(); // Initialize the navigate function
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         login({ email, password }).catch(() => {
             console.error('Login failed');
         });
+    };
+
+    const handleForgotPasswordClick = () => {
+        navigate('/forgot-password'); // Navigate to the custom Forgot Password page path
     };
 
     return (
@@ -80,6 +84,21 @@ const CustomLogin = () => {
                             Log In
                         </Button>
                     </Box>
+                    <Typography
+                        component="h1"
+                        variant="h5"
+                        sx={{ color: '#348dc3', cursor: 'pointer' }}
+                        onClick={handleForgotPasswordClick} // Add click handler here
+                    >
+                        Forgot Password
+                    </Typography>
+                    <br />
+                    <Typography sx={{ color: '#9199b3', fontSize: 'h5' }}>
+                        Trouble Logging in? Please contact support at
+                    </Typography>
+                    <Typography sx={{ color: '#348dc3', fontSize: 'h5' }}>
+                        support@amkhoib.co.za
+                    </Typography>
                 </Box>
             </Container>
         </Box>
