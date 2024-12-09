@@ -17,3 +17,17 @@
     min-height: auto;
     color: white;
 }
+
+/* layout.css or similar */
+.no-app-bar .RaLayout-content {
+    padding-top: 0px !important;
+    margin-top: 0px !important;
+}
+
+.css-1ygtzf7-RaLayout-root .RaLayout-appFrame {
+    margin-top: 0px !important;
+}
+
+.css-domn6v-MuiDrawer-docked-RaSidebar-root .RaSidebar-fixed {
+    height: 100vh !important;
+}
