@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLogout } from 'react-admin';
 import { Box, Divider, Typography } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
@@ -10,6 +10,8 @@ import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import DescriptionIcon from '@mui/icons-material/Description';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
+
 import logo from '../media/A-icon.png';
 
 type MenuItemProps = {
@@ -23,6 +25,20 @@ type MenuItemProps = {
 const MyMenu = () => {
     const logout = useLogout();
     const location = useLocation();
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleLogout = () => {
+        logout();
+        handleClose();
+    };
 
     return (
         <Box
@@ -30,12 +46,12 @@ const MyMenu = () => {
                 width: 100,
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between', // Distribute space
+                justifyContent: 'space-between',
                 alignItems: 'center',
                 height: '100vh',
                 backgroundColor: '#071135',
                 color: '#fff',
-                py: 2, // Add some vertical padding
+                py: 2,
             }}
         >
             <Box>
@@ -69,11 +85,54 @@ const MyMenu = () => {
                 <MenuItem to="/users" icon={<GroupIcon />} text="People" isSelected={location.pathname === '/users'} />
                 <MenuItem to="/contractors" icon={<BusinessCenterIcon />} text="Contractors" isSelected={location.pathname === '/contractors'} />
                 <MenuItem to="/documents" icon={<DescriptionIcon />} text="Documents" isSelected={location.pathname === '/documents'} />
-                {/* <MenuItem to="/settings" icon={<SettingsIcon />} text="Settings" isSelected={location.pathname === '/settings'} /> */}
             </Box>
 
             {/* Logout Item */}
-            <MenuItem to="logout" icon={<MeetingRoomIcon />} onClick={logout} text="Logout" isSelected={false} />
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    padding: '10px 0',
+                    cursor: 'pointer',
+                    '& svg': {
+                        color: '#fff',
+                    },
+                    '& .MuiTypography-caption': {
+                        color: '#fff',
+                    },
+                }}
+                onClick={handleClickOpen}
+            >
+                <MeetingRoomIcon />
+                <Typography variant="caption" sx={{ marginTop: 1 }}>
+                    Logout
+                </Typography>
+            </Box>
+
+            {/* Confirm Logout Dialog */}
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{""}</DialogTitle>
+                <DialogContent>
+                    {<MeetingRoomIcon />}
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to logout?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleLogout} color="primary" autoFocus>
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 };

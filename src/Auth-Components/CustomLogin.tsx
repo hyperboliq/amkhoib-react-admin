@@ -7,18 +7,21 @@ import logo from '../media/A-icon.png';
 const CustomLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState(''); // State for error message
     const login = useLogin();
-    const navigate = useNavigate(); // Initialize the navigate function
+    const navigate = useNavigate();
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        login({ email, password }).catch(() => {
-            console.error('Login failed');
+        login({ email, password }).catch((error) => {
+            const errorDescription = error?.response?.data?.error_description || 'Your password is incorrect. Please try again.';
+            setErrorMessage(errorDescription);
+            console.error('Login failed', error);
         });
     };
 
     const handleForgotPasswordClick = () => {
-        navigate('/forgot-password'); // Navigate to the custom Forgot Password page path
+        navigate('/forgot-password');
     };
 
     return (
@@ -46,17 +49,16 @@ const CustomLogin = () => {
                             alignItems: 'center',
                         }}
                     >
-                        {/* LOGO HERE */}
                         <img src={logo} alt="Logo" style={{ width: '150px', height: '150px', borderRadius: '50%', marginBottom: '50px' }} />
                     </Box>
                     <Typography component="h1" variant="h5" sx={{ color: 'white' }}>
-                        Log Into Amkhoib's Admin Portal
+                        Log into Amkhoib's Admin Portal
                     </Typography>
                     <Box component="form" onSubmit={handleLogin} sx={{ mt: 1 }}>
                         <TextField
                             required
-                            id="outlined-required"
-                            label="Email Address"
+                            id="email"
+                            label="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             fullWidth
@@ -73,6 +75,10 @@ const CustomLogin = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             fullWidth
                             margin="normal"
+                            error={Boolean(errorMessage)} // Highlight the field on error
+                            helperText={errorMessage} // Display the error message
+                            FormHelperTextProps={{ sx: { color: 'error.main' } }}
+                            InputProps={{ sx: { '& fieldset': { borderColor: errorMessage ? 'error.main' : 'rgba(0, 0, 0, 0.23)' } } }}
                         />
                         <Button
                             type="submit"
@@ -88,7 +94,7 @@ const CustomLogin = () => {
                         component="h1"
                         variant="h5"
                         sx={{ color: '#348dc3', cursor: 'pointer' }}
-                        onClick={handleForgotPasswordClick} // Add click handler here
+                        onClick={handleForgotPasswordClick}
                     >
                         Forgot Password
                     </Typography>
