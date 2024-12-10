@@ -32,6 +32,7 @@ import { defaultLightTheme, defaultDarkTheme } from './themes';
 import MyLayout from './Layout-Components/MyLayout';
 import { Dashboard } from './Supabase-Components/Dashboard';
 import Settings from './Supabase-Components/Settings';
+import TestCreate from './Supabase-Components/Test';
 import CustomLogin from './Auth-Components/CustomLogin';
 
 
@@ -78,6 +79,7 @@ export const App: React.FC = () => (
 
             <CustomRoutes>
                 <Route path="/settings" element={<Settings />} /> {/* Add the route for settings */}
+                <Route path="/testCreate" element={<TestCreate />} /> {/* Add the route for settings */}
             </CustomRoutes>
 
             <CustomRoutes noLayout>
