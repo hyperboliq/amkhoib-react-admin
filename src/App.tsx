@@ -33,6 +33,7 @@ import MyLayout from './Layout-Components/MyLayout';
 import { Dashboard } from './Supabase-Components/Dashboard';
 import Settings from './Supabase-Components/Settings';
 import CustomLogin from './Auth-Components/CustomLogin';
+import ManyToMany from './Supabase-Components/ManyToMany';
 
 
 const instanceUrl = "https://api.amkhoib.org";
@@ -75,9 +76,10 @@ export const App: React.FC = () => (
             <Resource name="disciplines" list={DisciplineList} edit={DisciplineEdit} create={DisciplineCreate} show={DisciplineShow} />
             <Resource name="discipline_documents" list={Discipline_documentList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="notifications" list={NotificationList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
-
+            <Resource name="manyToMany" create={ManyToMany} />
             <CustomRoutes>
                 <Route path="/settings" element={<Settings />} /> {/* Add the route for settings */}
+                <Route path="/manyToMany" element={<ManyToMany />} /> {/* Add the route for settings */}
             </CustomRoutes>
 
             <CustomRoutes noLayout>
