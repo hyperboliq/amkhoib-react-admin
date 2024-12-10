@@ -5,10 +5,15 @@ import { List, Datagrid, TextField, NumberField, DateField, TextInput, DateInput
 import supabaseClient from '../supabaseClient'; 
 import CustomSaveButton from '../Buttons/CustomSaveButton';
 
-interface Choice {
+// interface Choice {
+//     id: any;
+//     name: any;
+// }
+
+type Choice = {
     id: any;
     name: any;
-}
+};
 
 const filters = [
     <TextInput source="id" />,
@@ -29,20 +34,76 @@ export const DisciplineList = () => (
     </List>
 );
 
-// This is my Create/insert
+// // This is my Create/insert
+// export const DisciplineCreate = () => {
+//     const [choices, setChoices] = useState<Choice[]>([]);
+//     useEffect(() => {
+//         const fetchChoices = async () => {
+//             try {
+//                 const { data: discipline, error } = await supabaseClient
+//                     .from('disciplines')
+//                     .select('id, parent_id, name');
+
+//                 if (error) throw error;
+
+//                 const transformedChoices = discipline
+//                     .filter(disciplines => disciplines.parent_id != disciplines.id) 
+//                     .map(discipline => ({
+//                         id: discipline.parent_id,
+//                         name: discipline.name,
+//                     }));
+
+//                 setChoices(transformedChoices);
+//             } catch (err) {
+//                 console.error('Error fetching choices:', err);
+//             }
+//         };
+//         fetchChoices();
+//     }, []);
+
+//     return (
+//         <Create>
+//             <Form>
+//                 <Paper elevation={3} sx={{ padding: 1, borderRadius: 0 }}>
+//                     <Grid container spacing={0} sx={{ padding: 3 }}>
+//                         <Grid item xs={12}>
+//                             <DateInput source="created_at" />
+//                         </Grid>
+//                         <Grid item xs={12}>
+//                             <SelectInput source="parent_id" choices={choices} optionText="name" optionValue="id" label="Select Discipline"/>
+//                         </Grid>
+//                         <Grid item xs={12}>
+//                             <TextInput source="name" />
+//                         </Grid>
+//                     </Grid>
+//                     <Toolbar sx={{ justifyContent: 'center' }}>
+//                         <CustomSaveButton label="Save Discipline" />
+//                     </Toolbar>
+//                 </Paper>
+//             </Form>
+//         </Create>
+//     );
+// };
+
 export const DisciplineCreate = () => {
     const [choices, setChoices] = useState<Choice[]>([]);
+    const [formState, setFormState] = useState({
+        created_at: '',
+        parent_id: '',
+        name: ''
+    });
+
     useEffect(() => {
         const fetchChoices = async () => {
             try {
-                const { data: discipline, error } = await supabaseClient
+                const { data: disciplines, error } = await supabaseClient
                     .from('disciplines')
                     .select('id, parent_id, name');
 
                 if (error) throw error;
 
-                const transformedChoices = discipline
-                    .filter(disciplines => disciplines.parent_id != disciplines.id) 
+                const transformedChoices: Choice[] = disciplines
+                    .filter(discipline => discipline.parent_id !== discipline.id)
                     .map(discipline => ({
                         id: discipline.parent_id,
                         name: discipline.name,
@@ -53,29 +114,81 @@ export const DisciplineCreate = () => {
                 console.error('Error fetching choices:', err);
             }
         };
+
         fetchChoices();
     }, []);
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormState(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const { parent_id, name, created_at } = formState;
+
+        // Use the current entry ID if no parent is selected
+        const entryParentId = parent_id || formState.id; // Assume `formState.id` is your generated ID logic
+
+        try {
+            const { error } = await supabaseClient
+                .from('disciplines')
+                .insert([{ name, created_at, parent_id: entryParentId }]);
+
+            if (error) throw error;
+
+            // Handle successful save (e.g., display a notification)
+        } catch (err) {
+            console.error('Error saving discipline:', err);
+        }
+    };
+
     return (
         <Create>
-            <Form>
+            <form onSubmit={handleSubmit}>
                 <Paper elevation={3} sx={{ padding: 1, borderRadius: 0 }}>
                     <Grid container spacing={0} sx={{ padding: 3 }}>
                         <Grid item xs={12}>
-                            <DateInput source="created_at" />
+                            <input
+                                type="date"
+                                name="created_at"
+                                value={formState.created_at}
+                                onChange={handleChange}
+                            />
                         </Grid>
                         <Grid item xs={12}>
-                            <SelectInput source="parent_id" choices={choices} optionText="name" optionValue="id" label="Select Discipline"/>
+                            <select
+                                name="parent_id"
+                                value={formState.parent_id}
+                                onChange={handleChange}>
+                                <option value="">Select Discipline</option>
+                                {choices.map(choice => (
+                                    <option key={choice.id} value={choice.id}>
+                                        {choice.name}
+                                    </option>
+                                ))}
+                            </select>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextInput source="name" />
+                            <input
+                                type="text"
+                                name="name"
+                                value={formState.name}
+                                onChange={handleChange}
+                            />
                         </Grid>
                     </Grid>
                     <Toolbar sx={{ justifyContent: 'center' }}>
-                        <CustomSaveButton label="Save Discipline" />
+                        <button type="submit">
+                            Save Discipline
+                        </button>
                     </Toolbar>
                 </Paper>
-            </Form>
+            </form>
         </Create>
     );
 };

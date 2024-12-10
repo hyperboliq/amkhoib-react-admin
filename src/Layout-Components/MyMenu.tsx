@@ -86,6 +86,8 @@ const MyMenu = () => {
                 <MenuItem to="/contractors" icon={<BusinessCenterIcon />} text="Contractors" isSelected={location.pathname === '/contractors'} />
                 <MenuItem to="/documents" icon={<DescriptionIcon />} text="Documents" isSelected={location.pathname === '/documents'} />
                 <MenuItem to="/manyToMany" icon={<DescriptionIcon />} text="ManyToMany" isSelected={location.pathname === '/manyToMany'} />
+                <MenuItem to="/disciplines" icon={<DescriptionIcon />} text="Disciplines" isSelected={location.pathname === '/disciplines'} />
+                
             </Box>
 
             {/* Logout Item */}

@@ -9,7 +9,7 @@ type Category = {
   name: string;
 };
 
-const ManyToMany = () => {
+const DocumentListCreate = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [formData, setFormData] = useState({
     title: '',
@@ -217,4 +217,4 @@ const ManyToMany = () => {
   );
 };
 
-export default ManyToMany;
+export default DocumentListCreate;
