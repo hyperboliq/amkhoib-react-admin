@@ -1,7 +1,7 @@
 // app.tsx
 import './global.css';
 import React from 'react';
-import { Admin, Resource, CustomRoutes, CreateParams } from 'react-admin';
+import { Admin, Resource, CustomRoutes } from 'react-admin';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
 import { CreateGuesser, EditGuesser, ForgotPasswordPage, ListGuesser, LoginPage, SetPasswordPage, ShowGuesser, defaultI18nProvider, supabaseDataProvider, supabaseAuthProvider, AdminGuesser} from 'ra-supabase'; 
@@ -18,7 +18,7 @@ import { Field_typeList } from './Supabase-Components/Field_typeList';
 import { User_roleList } from './Supabase-Components/User_roleList';
 import { Contractor_disciplineList } from './Supabase-Components/Contractor_disciplineList';
 import { Contractor_typeList } from './Supabase-Components/Contractor_typeList';
-import { DocumentCreate, DocumentEdit, DocumentList, DocumentShow } from './Supabase-Components/DocumentList';
+import { DocumentEdit, DocumentList, DocumentShow } from './Supabase-Components/DocumentList';
 import { StatusList } from './Supabase-Components/StatusList';
 import { UserList } from './Supabase-Components/UserList';
 import { Project_documentList } from './Supabase-Components/Project_documentList';
@@ -26,14 +26,14 @@ import { DisciplineEdit, DisciplineList, DisciplineShow } from './Supabase-Compo
 import { Discipline_documentList } from './Supabase-Components/Discipline_documentList';
 import { CategoryList } from './Supabase-Components/CategoryList';
 import { NotificationList } from './Supabase-Components/NotificationList';
-import { DisciplineCreate } from './Supabase-Components/DisciplineList';
 import { defaultLightTheme, defaultDarkTheme } from './themes';
 // import ThemeToggler from './Layout-Components/ThemeToggler';
 import MyLayout from './Layout-Components/MyLayout';
 import { Dashboard } from './Supabase-Components/Dashboard';
-import Settings from './Supabase-Components/Settings';
 import CustomLogin from './Auth-Components/CustomLogin';
-import DocumentsListCreate from './Supabase-Components/DocumentsListCreate';
+import DocumentsListCreate from './Pages/Documents/DocumentsListCreate';
+import ContractorCreate from './Pages/Contractors/ContractorCreate';
+import { DisciplineCreate } from './Pages/Disciplines/DisciplinCreate';
 
 
 const instanceUrl = "https://api.amkhoib.org";
@@ -64,7 +64,7 @@ export const App: React.FC = () => (
             <Resource name="placeholders" list={PlaceholderList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="clients" list={ClientList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="zzz_documents" list={Zzz_documentList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
-            <Resource name="contractors" list={ContractorList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
+            <Resource name="contractors" list={ContractorList} edit={EditGuesser} create={ContractorCreate} show={ShowGuesser} />
             <Resource name="projects" list={ProjectList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="field_types" list={Field_typeList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="user_roles" list={User_roleList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
@@ -77,16 +77,13 @@ export const App: React.FC = () => (
             <Resource name="discipline_documents" list={Discipline_documentList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="notifications" list={NotificationList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             {/* <Resource name="manyToMany" create={ManyToMany} /> */}
-            <CustomRoutes>
-                <Route path="/settings" element={<Settings />} /> {/* Add the route for settings */}
-                {/* <Route path="/manyToMany" element={<ManyToMany />} /> Add the route for settings */}
-            </CustomRoutes>
+
+            {/* <CustomRoutes>
+            </CustomRoutes> */}
 
             <CustomRoutes noLayout>
                 <Route path={SetPasswordPage.path} element={<SetPasswordPage />} />
-                {/* <Route path={ForgotPasswordPage.path} element={<ForgotPasswordPage />} /> */}
                 <Route path={CustomForgotPasswordPage.path} element={<CustomForgotPasswordPage />} />
-                {/* <Route path="/settings" element={<Settings />} /> */}
             </CustomRoutes>
         </Admin>
     </BrowserRouter>

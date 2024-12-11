@@ -1,9 +1,7 @@
 // DisciplineList.tsx
-import React, { useEffect, useState } from 'react';
-import { Grid, Paper } from '@mui/material';
-import { List, Datagrid, TextField, NumberField, DateField, TextInput, DateInput, NumberInput, Create, SimpleForm, SelectInput, Show, SimpleShowLayout, Edit, Form, Toolbar } from 'react-admin';
-import supabaseClient from '../supabaseClient'; 
-import CustomSaveButton from '../Buttons/CustomSaveButton';
+
+import { List, Datagrid, TextField, NumberField, DateField, TextInput, DateInput, NumberInput, SimpleForm, Show, SimpleShowLayout, Edit } from 'react-admin';
+
 
 // interface Choice {
 //     id: any;
@@ -85,113 +83,7 @@ export const DisciplineList = () => (
 //     );
 // };
 
-export const DisciplineCreate = () => {
-    const [choices, setChoices] = useState<Choice[]>([]);
-    const [formState, setFormState] = useState({
-        created_at: '',
-        parent_id: '',
-        name: ''
-    });
 
-    useEffect(() => {
-        const fetchChoices = async () => {
-            try {
-                const { data: disciplines, error } = await supabaseClient
-                    .from('disciplines')
-                    .select('id, parent_id, name');
-
-                if (error) throw error;
-
-                const transformedChoices: Choice[] = disciplines
-                    .filter(discipline => discipline.parent_id !== discipline.id)
-                    .map(discipline => ({
-                        id: discipline.parent_id,
-                        name: discipline.name,
-                    }));
-
-                setChoices(transformedChoices);
-            } catch (err) {
-                console.error('Error fetching choices:', err);
-            }
-        };
-
-        fetchChoices();
-    }, []);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormState(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const { parent_id, name, created_at } = formState;
-
-        // Use the current entry ID if no parent is selected
-        const entryParentId = parent_id || formState.id; // Assume `formState.id` is your generated ID logic
-
-        try {
-            const { error } = await supabaseClient
-                .from('disciplines')
-                .insert([{ name, created_at, parent_id: entryParentId }]);
-
-            if (error) throw error;
-
-            // Handle successful save (e.g., display a notification)
-        } catch (err) {
-            console.error('Error saving discipline:', err);
-        }
-    };
-
-    return (
-        <Create>
-            <form onSubmit={handleSubmit}>
-                <Paper elevation={3} sx={{ padding: 1, borderRadius: 0 }}>
-                    <Grid container spacing={0} sx={{ padding: 3 }}>
-                        <Grid item xs={12}>
-                            <input
-                                type="date"
-                                name="created_at"
-                                value={formState.created_at}
-                                onChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <select
-                                name="parent_id"
-                                value={formState.parent_id}
-                                onChange={handleChange}>
-                                <option value="">Select Discipline</option>
-                                {choices.map(choice => (
-                                    <option key={choice.id} value={choice.id}>
-                                        {choice.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <input
-                                type="text"
-                                name="name"
-                                value={formState.name}
-                                onChange={handleChange}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Toolbar sx={{ justifyContent: 'center' }}>
-                        <button type="submit">
-                            Save Discipline
-                        </button>
-                    </Toolbar>
-                </Paper>
-            </form>
-        </Create>
-    );
-};
 
     // This is my Edit
     export const DisciplineEdit = () => (

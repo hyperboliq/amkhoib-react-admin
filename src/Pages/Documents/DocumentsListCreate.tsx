@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, useNotify, useRedirect } from 'react-admin';
 import { TextField, Checkbox, FormControlLabel, MenuItem, Select, FormControl, Box, Typography } from '@mui/material';
-import supabaseClient from '../supabaseClient';
+import supabaseClient from '../../supabaseClient';
 import { SelectChangeEvent } from '@mui/material/Select';
 
 type Category = {
