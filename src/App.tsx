@@ -36,7 +36,7 @@ import DocumentsListCreate from './Pages/Documents/DocumentCreate';
 import ContractorCreate from './Pages/Contractors/ContractorCreate';
 import { DisciplineCreate } from './Pages/Disciplines/DisciplinCreate';
 import DocumentsListEdit from './Pages/Documents/DocumentEdit';
-import { DisciplineEdit } from './Pages/Disciplines/DisciplineEdit';
+import { DisciplineEdit } from './Pages/Disciplines/DisciplinEdit';
 import ContractorEdit from './Pages/Contractors/ContractorEdit';
 
 
