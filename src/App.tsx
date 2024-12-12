@@ -29,13 +29,15 @@ import { NotificationList } from './Supabase-Components/NotificationList';
 import { defaultLightTheme, defaultDarkTheme } from './themes';
 // import ThemeToggler from './Layout-Components/ThemeToggler';
 import MyLayout from './Layout-Components/MyLayout';
-import { Dashboard } from './Supabase-Components/Dashboard';
+// import { Dashboard } from './Supabase-Components/Dashboard';
+import Dashboard from './Supabase-Components/Dashboard';
 import CustomLogin from './Auth-Components/CustomLogin';
-import DocumentsListCreate from './Pages/Documents/DocumentsListCreate';
+import DocumentsListCreate from './Pages/Documents/DocumentCreate';
 import ContractorCreate from './Pages/Contractors/ContractorCreate';
 import { DisciplineCreate } from './Pages/Disciplines/DisciplinCreate';
-import DocumentsListEdit from './Pages/Documents/DocumentsListEdit';
+import DocumentsListEdit from './Pages/Documents/DocumentEdit';
 import { DisciplineEdit } from './Pages/Disciplines/DisciplineEdit';
+import ContractorEdit from './Pages/Contractors/ContractorEdit';
 
 
 const instanceUrl = "https://api.amkhoib.org";
@@ -66,7 +68,7 @@ export const App: React.FC = () => (
             <Resource name="placeholders" list={PlaceholderList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="clients" list={ClientList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="zzz_documents" list={Zzz_documentList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
-            <Resource name="contractors" list={ContractorList} edit={EditGuesser} create={ContractorCreate} show={ShowGuesser} />
+            <Resource name="contractors" list={ContractorList} edit={ContractorEdit} create={ContractorCreate} show={ShowGuesser} />
             <Resource name="projects" list={ProjectList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="field_types" list={Field_typeList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="user_roles" list={User_roleList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />

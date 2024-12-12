@@ -1,4 +1,3 @@
-// Dashboard.tsx
 import React from 'react';
 import { Card, CardContent, Typography, Grid, Box, SvgIconProps } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
@@ -111,40 +110,3 @@ export const Dashboard: React.FC = () => {
 };
 
 export default Dashboard;
-
-// import React, { useEffect, useState } from 'react';
-// import { Title } from 'react-admin';
-// import supabaseClient from '../supabaseClient'; // Update with the path to your Supabase client instance
-
-// const Dashboard: React.FC = () => {
-//   const [userName, setUserName] = useState<string | null>(null);
-
-//   useEffect(() => {
-//     const fetchUser = async () => {
-//       const { data: session, error } = await supabaseClient.auth.getSession();
-
-//       if (error) {
-//         console.error('Error fetching session:', error);
-//         return;
-//       }
-
-//       if (session?.user) {
-//         const { user } = session;
-//         // Assuming the user's name is stored in `user_metadata`
-//         setUserName(user.user_metadata?.full_name || user.email || 'User');
-//       }
-//     };
-
-//     fetchUser();
-//   }, []);
-
-//   return (
-//     <div style={{ padding: '1rem' }}>
-//       <Title title="Dashboard" />
-//       <h1>Welcome, {userName || 'Loading...'}!</h1>
-//     </div>
-//   );
-// };
-
-// export default Dashboard;
-
