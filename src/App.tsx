@@ -18,11 +18,11 @@ import { Field_typeList } from './Supabase-Components/Field_typeList';
 import { User_roleList } from './Supabase-Components/User_roleList';
 import { Contractor_disciplineList } from './Supabase-Components/Contractor_disciplineList';
 import { Contractor_typeList } from './Supabase-Components/Contractor_typeList';
-import { DocumentEdit, DocumentList, DocumentShow } from './Supabase-Components/DocumentList';
+import { DocumentList, DocumentShow } from './Supabase-Components/DocumentList';
 import { StatusList } from './Supabase-Components/StatusList';
 import { UserList } from './Supabase-Components/UserList';
 import { Project_documentList } from './Supabase-Components/Project_documentList';
-import { DisciplineEdit, DisciplineList, DisciplineShow } from './Supabase-Components/DisciplineList';
+import { DisciplineList, DisciplineShow } from './Supabase-Components/DisciplineList';
 import { Discipline_documentList } from './Supabase-Components/Discipline_documentList';
 import { CategoryList } from './Supabase-Components/CategoryList';
 import { NotificationList } from './Supabase-Components/NotificationList';
@@ -34,6 +34,8 @@ import CustomLogin from './Auth-Components/CustomLogin';
 import DocumentsListCreate from './Pages/Documents/DocumentsListCreate';
 import ContractorCreate from './Pages/Contractors/ContractorCreate';
 import { DisciplineCreate } from './Pages/Disciplines/DisciplinCreate';
+import DocumentsListEdit from './Pages/Documents/DocumentsListEdit';
+import { DisciplineEdit } from './Pages/Disciplines/DisciplineEdit';
 
 
 const instanceUrl = "https://api.amkhoib.org";
@@ -56,7 +58,7 @@ export const App: React.FC = () => (
             dashboard={Dashboard}
         >
 
-            <Resource name="documents" list={DocumentList} edit={DocumentEdit} create={DocumentsListCreate} show={DocumentShow} />
+            <Resource name="documents" list={DocumentList} edit={DocumentsListEdit} create={DocumentsListCreate} show={DocumentShow} />
             <Resource name="categories" list={CategoryList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="category_documents" list={Category_documentList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="placeholder_types" list={Placeholder_typeList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />

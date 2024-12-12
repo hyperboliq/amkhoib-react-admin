@@ -1,4 +1,4 @@
-import { required, BooleanField, BooleanInput, Create, Datagrid, DateField, DateInput, List, NumberField, NumberInput, ReferenceField, ReferenceInput, SimpleForm, TextField, TextInput, Toolbar, SaveButton, Form, ReferenceManyField, Show, SimpleShowLayout, TabbedShowLayout, SelectInput, AutocompleteArrayInput, SearchInput, FilterLiveSearch, Edit, ChipField } from 'react-admin';
+import { required, BooleanField, BooleanInput, Create, Datagrid, DateField, DateInput, List, NumberField, NumberInput, ReferenceField, ReferenceInput, SimpleForm, TextField, TextInput, Toolbar, SaveButton, Form, ReferenceManyField, Show, SimpleShowLayout, TabbedShowLayout, SelectInput, AutocompleteArrayInput, SearchInput, FilterLiveSearch, Edit, ChipField, EditButton } from 'react-admin';
 import { Card, CardContent, Grid, Paper, Typography } from '@mui/material';
 import CustomSaveButton from '../Components/CustomSaveButton';
 import supabaseClient from '../supabaseClient';
@@ -29,7 +29,7 @@ const filters = [
 // This is my List
 export const DocumentList = () => (
     <List filters={filters} sort={{ field: 'revision_date', order: 'DESC' }}>
-        <Datagrid>
+        <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="file_name" />
             <TextField source="title" />
@@ -41,6 +41,7 @@ export const DocumentList = () => (
             <BooleanField source="has_header" />
             <BooleanField source="has_watermark" />
             <ReferenceField source="categories_id" reference="category_documents" />
+            <EditButton />
         </Datagrid>
     </List>
 );
@@ -129,173 +130,173 @@ export const DocumentShow = () => (
     </Show>
 );
 
-// This is my Create/Insert
-export const DocumentCreate = () => {
-    const [choices, setChoices] = useState<Choice[]>([]);
-    useEffect(() => {
-        const fetchChoices = async () => {
-            try {
-                const { data: categories, error } = await supabaseClient
-                    .from('categories')
-                    .select('id, name');
+// // This is my Create/Insert
+// export const DocumentCreate = () => {
+//     const [choices, setChoices] = useState<Choice[]>([]);
+//     useEffect(() => {
+//         const fetchChoices = async () => {
+//             try {
+//                 const { data: categories, error } = await supabaseClient
+//                     .from('categories')
+//                     .select('id, name');
 
-                if (error) throw error;
+//                 if (error) throw error;
 
-                setChoices(categories);
-            } catch (err) {
-                console.error('Error fetching choices:', err);
-            }
-        };
-        fetchChoices();
-    }, []);
+//                 setChoices(categories);
+//             } catch (err) {
+//                 console.error('Error fetching choices:', err);
+//             }
+//         };
+//         fetchChoices();
+//     }, []);
 
-    // const [create, {loading}] = useCreate
+//     // const [create, {loading}] = useCreate
 
-    return (
-        <Create>
-            <Form>
-                <Paper elevation={3} sx={{ padding: 2, borderRadius: 0 }}>
-                    <Grid container spacing={2} sx={{ padding: 2 }}>
-                        <Grid item xs={6}>
-                            <TextInput source="file_name" fullWidth validate={required()} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextInput source="title" fullWidth validate={required()} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextInput source="code" fullWidth validate={required()} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <NumberInput source="revision_number" fullWidth validate={required()} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <DateInput source="revision_date" fullWidth validate={required()} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <NumberInput source="order" fullWidth validate={required()} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextInput source="watermark" fullWidth validate={required()} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <SelectInput
-                                source="categorie_id" // Make sure to use the correct source
-                                choices={choices}
-                                optionText="name"
-                                optionValue="id"
-                                label="Select Category"
-                                fullWidth
-                                validate={required()}
-                            />
-                        </Grid>
-                        <ReferenceInput source="categories_id" reference="category_documents" />
-                        <Grid item xs={6}>
-                            <Card variant="outlined">
-                                <CardContent>
-                                    <Typography variant="h6">Has Header</Typography>
-                                    <BooleanInput source="has_header" fullWidth />
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Card variant="outlined">
-                                <CardContent>
-                                    <Typography variant="h6">Has Watermark</Typography>
-                                    <BooleanInput source="has_watermark" fullWidth />
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    </Grid>
-                    <Toolbar sx={{ justifyContent: 'center' }}>
-                        <CustomSaveButton label="Save Document" />
-                    </Toolbar>
-                </Paper>
-            </Form>
-        </Create>
-    );
-};
+//     return (
+//         <Create>
+//             <Form>
+//                 <Paper elevation={3} sx={{ padding: 2, borderRadius: 0 }}>
+//                     <Grid container spacing={2} sx={{ padding: 2 }}>
+//                         <Grid item xs={6}>
+//                             <TextInput source="file_name" fullWidth validate={required()} />
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <TextInput source="title" fullWidth validate={required()} />
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <TextInput source="code" fullWidth validate={required()} />
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <NumberInput source="revision_number" fullWidth validate={required()} />
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <DateInput source="revision_date" fullWidth validate={required()} />
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <NumberInput source="order" fullWidth validate={required()} />
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <TextInput source="watermark" fullWidth validate={required()} />
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <SelectInput
+//                                 source="categorie_id" // Make sure to use the correct source
+//                                 choices={choices}
+//                                 optionText="name"
+//                                 optionValue="id"
+//                                 label="Select Category"
+//                                 fullWidth
+//                                 validate={required()}
+//                             />
+//                         </Grid>
+//                         <ReferenceInput source="categories_id" reference="category_documents" />
+//                         <Grid item xs={6}>
+//                             <Card variant="outlined">
+//                                 <CardContent>
+//                                     <Typography variant="h6">Has Header</Typography>
+//                                     <BooleanInput source="has_header" fullWidth />
+//                                 </CardContent>
+//                             </Card>
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <Card variant="outlined">
+//                                 <CardContent>
+//                                     <Typography variant="h6">Has Watermark</Typography>
+//                                     <BooleanInput source="has_watermark" fullWidth />
+//                                 </CardContent>
+//                             </Card>
+//                         </Grid>
+//                     </Grid>
+//                     <Toolbar sx={{ justifyContent: 'center' }}>
+//                         <CustomSaveButton label="Save Document" />
+//                     </Toolbar>
+//                 </Paper>
+//             </Form>
+//         </Create>
+//     );
+// };
 
-// this is my edit
-export const DocumentEdit = () => {
-    const [choices, setChoices] = useState<Choice[]>([]);
-    useEffect(() => {
-        const fetchChoices = async () => {
-            try {
-                const { data: categories, error } = await supabaseClient
-                    .from('categories')
-                    .select('id, name');
+// // this is my edit
+// export const DocumentEdit = () => {
+//     const [choices, setChoices] = useState<Choice[]>([]);
+//     useEffect(() => {
+//         const fetchChoices = async () => {
+//             try {
+//                 const { data: categories, error } = await supabaseClient
+//                     .from('categories')
+//                     .select('id, name');
 
-                if (error) throw error;
+//                 if (error) throw error;
 
-                setChoices(categories);
-            } catch (err) {
-                console.error('Error fetching choices:', err);
-            }
-        };
-        fetchChoices();
-    }, []);
+//                 setChoices(categories);
+//             } catch (err) {
+//                 console.error('Error fetching choices:', err);
+//             }
+//         };
+//         fetchChoices();
+//     }, []);
 
-    return (
-        <Edit>
-        <Form>
-                <Paper elevation={3} sx={{ padding: 2, borderRadius: 0 }}>
-                    <Grid container spacing={2} sx={{ padding: 2 }}>
-                        <Grid item xs={6}>
-                            <TextInput source="file_name" fullWidth validate={required()} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextInput source="title" fullWidth validate={required()} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextInput source="code" fullWidth validate={required()} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <NumberInput source="revision_number" fullWidth validate={required()} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <DateInput source="revision_date" fullWidth validate={required()} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <NumberInput source="order" fullWidth validate={required()} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextInput source="watermark" fullWidth validate={required()} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <SelectInput
-                                source="categorie_id" // Make sure to use the correct source
-                                choices={choices}
-                                optionText="name"
-                                optionValue="id"
-                                label="Select Category"
-                                fullWidth
-                                validate={required()}
-                            />
-                        </Grid>
-                    <ReferenceInput source="categories_id" reference="category_documents" />
-                        <Grid item xs={6}>
-                            <Card variant="outlined">
-                                <CardContent>
-                                    <Typography variant="h6">Has Header</Typography>
-                                    <BooleanInput source="has_header" fullWidth />
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Card variant="outlined">
-                                <CardContent>
-                                    <Typography variant="h6">Has Watermark</Typography>
-                                    <BooleanInput source="has_watermark" fullWidth />
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    </Grid>
-                    <Toolbar sx={{ justifyContent: 'center' }}>
-                        <CustomSaveButton label="Save Document" />
-                    </Toolbar>
-                </Paper>
-            </Form>
-        </Edit>
-    );
+//     return (
+//         <Edit>
+//         <Form>
+//                 <Paper elevation={3} sx={{ padding: 2, borderRadius: 0 }}>
+//                     <Grid container spacing={2} sx={{ padding: 2 }}>
+//                         <Grid item xs={6}>
+//                             <TextInput source="file_name" fullWidth validate={required()} />
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <TextInput source="title" fullWidth validate={required()} />
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <TextInput source="code" fullWidth validate={required()} />
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <NumberInput source="revision_number" fullWidth validate={required()} />
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <DateInput source="revision_date" fullWidth validate={required()} />
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <NumberInput source="order" fullWidth validate={required()} />
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <TextInput source="watermark" fullWidth validate={required()} />
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <SelectInput
+//                                 source="categorie_id" // Make sure to use the correct source
+//                                 choices={choices}
+//                                 optionText="name"
+//                                 optionValue="id"
+//                                 label="Select Category"
+//                                 fullWidth
+//                                 validate={required()}
+//                             />
+//                         </Grid>
+//                     <ReferenceInput source="categories_id" reference="category_documents" />
+//                         <Grid item xs={6}>
+//                             <Card variant="outlined">
+//                                 <CardContent>
+//                                     <Typography variant="h6">Has Header</Typography>
+//                                     <BooleanInput source="has_header" fullWidth />
+//                                 </CardContent>
+//                             </Card>
+//                         </Grid>
+//                         <Grid item xs={6}>
+//                             <Card variant="outlined">
+//                                 <CardContent>
+//                                     <Typography variant="h6">Has Watermark</Typography>
+//                                     <BooleanInput source="has_watermark" fullWidth />
+//                                 </CardContent>
+//                             </Card>
+//                         </Grid>
+//                     </Grid>
+//                     <Toolbar sx={{ justifyContent: 'center' }}>
+//                         <CustomSaveButton label="Save Document" />
+//                     </Toolbar>
+//                 </Paper>
+//             </Form>
+//         </Edit>
+//     );
 
-};
+// };

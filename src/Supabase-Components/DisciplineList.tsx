@@ -86,15 +86,15 @@ export const DisciplineList = () => (
 
 
     // This is my Edit
-    export const DisciplineEdit = () => (
-        <Edit>
-            <SimpleForm>
-                <DateInput source="created_at" />
-                <NumberInput source="parent_id" />
-                <TextInput source="name" />
-            </SimpleForm>
-        </Edit>
-    );
+    // export const DisciplineEdit = () => (
+    //     <Edit>
+    //         <SimpleForm>
+    //             <DateInput source="created_at" />
+    //             <NumberInput source="parent_id" />
+    //             <TextInput source="name" />
+    //         </SimpleForm>
+    //     </Edit>
+    // );
 
 // This is My show
 export const DisciplineShow = () => (
