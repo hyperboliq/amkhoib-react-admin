@@ -29,7 +29,7 @@ export const DisciplineCreate = () => {
                 if (error) throw error;
 
                 const transformedChoices: Choice[] = disciplines
-                    .filter(discipline => discipline.parent_id !== discipline.id)
+                    .filter(discipline => discipline.parent_id === discipline.id)
                     .map(discipline => ({
                         id: discipline.parent_id,
                         name: discipline.name,
