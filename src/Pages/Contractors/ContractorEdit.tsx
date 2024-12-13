@@ -23,10 +23,10 @@ type ContractorType = {
 };
 
 type User = {
-    id: string;
-    first_name: string;
-    last_name: string;
-  };
+  id: string;
+  first_name: string;
+  last_name: string;
+};
 
 const ContractorEditInner = () => {
   const notify = useNotify();
@@ -52,41 +52,41 @@ const ContractorEditInner = () => {
       });
     }
 
-    const fetchDisciplinesAndSelections = async () => {
-      const { data: disciplinesData, error: disciplinesError } = await supabaseClient.from('disciplines').select('id, name, parent_id');
-      if (!disciplinesError && disciplinesData) {
-        const filteredDisciplines = disciplinesData.filter(discipline => discipline.parent_id !== discipline.id);
-        setDisciplines(filteredDisciplines.map(({ id, name, parent_id }) => ({ id, name, parent_id })));
-      }
+    const fetchData = async () => {
+      try {
+        const [disciplinesRes, contractorTypesRes, usersRes, selectedDisciplinesRes] = await Promise.all([
+          supabaseClient.from('disciplines').select('id, name, parent_id'),
+          supabaseClient.from('contractor_types').select('id, name'),
+          supabaseClient.from('users').select('id, first_name, last_name'),
+          supabaseClient
+            .from('contractor_disciplines')
+            .select('discipline_id')
+            .eq('contractor_id', record.id),
+        ]);
 
-      const { data: selectedDisciplinesData, error: selectedDisciplinesError } = await supabaseClient
-        .from('contractor_disciplines')
-        .select('discipline_id')
-        .eq('contractor_id', record.id);
+        if (disciplinesRes.data) {
+          const filteredDisciplines = disciplinesRes.data.filter(discipline => discipline.parent_id !== discipline.id);
+          setDisciplines(filteredDisciplines);
+        }
 
-      if (!selectedDisciplinesError && selectedDisciplinesData) {
-        setSelectedDisciplineIds(selectedDisciplinesData.map(item => item.discipline_id));
+        if (contractorTypesRes.data) {
+          setContractorTypes(contractorTypesRes.data);
+        }
+
+        if (usersRes.data) {
+          setUsers(usersRes.data);
+        }
+
+        if (selectedDisciplinesRes.data) {
+          setSelectedDisciplineIds(selectedDisciplinesRes.data.map(item => item.discipline_id));
+        }
+      } catch (error) {
+        notify('Error fetching data', { type: 'error' });
       }
     };
 
-    const fetchContractorTypes = async () => {
-      const { data: contractorTypesData, error: contractorTypesError } = await supabaseClient.from('contractor_types').select('id, name');
-      if (!contractorTypesError && contractorTypesData) {
-        setContractorTypes(contractorTypesData);
-      }
-    };
-
-    const fetchUsers = async () => {
-      const { data: usersData, error: usersError } = await supabaseClient.from('users').select('id, first_name, last_name');
-      if (!usersError && usersData) {
-        setUsers(usersData);
-      }
-    };
-
-    fetchDisciplinesAndSelections();
-    fetchContractorTypes();
-    fetchUsers(); // Fetch users for the representative dropdown
-  }, [record]);
+    fetchData();
+  }, [record, notify]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -103,21 +103,29 @@ const ContractorEditInner = () => {
   };
 
   const handleSave = async () => {
+    const { name, contractor_representative_id, contractor_type_id } = formData;
+
+    if (!name || !contractor_representative_id || !contractor_type_id) {
+      notify('All fields are required', { type: 'warning' });
+      return;
+    }
+
     if (!record?.id) return;
 
-    const { name, contractor_representative_id, contractor_type_id } = formData;
-    const recordId = String(record.id);
+    try {
+      const { error } = await supabaseClient
+        .from('contractors')
+        .update({ name, contractor_representative_id, contractor_type_id })
+        .eq('id', record.id);
 
-    const { error } = await supabaseClient
-      .from('contractors')
-      .update({ name, contractor_representative_id, contractor_type_id })
-      .eq('id', recordId);
-
-    if (!error) {
-      notify('Contractor updated successfully');
-      redirect('/contractors');
-    } else {
-      notify('Error updating contractor', { type: 'error' });
+      if (!error) {
+        notify('Contractor updated successfully');
+        redirect('/contractors');
+      } else {
+        throw new Error(error.message);
+      }
+    } catch (error) {
+      notify(`Error updating contractor: ${error.message}`, { type: 'error' });
     }
   };
 

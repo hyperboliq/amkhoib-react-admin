@@ -30,7 +30,7 @@ import { defaultLightTheme, defaultDarkTheme } from './themes';
 // import ThemeToggler from './Layout-Components/ThemeToggler';
 import MyLayout from './Layout-Components/MyLayout';
 // import { Dashboard } from './Supabase-Components/Dashboard';
-import Dashboard from './Supabase-Components/Dashboard';
+import Home from './Pages/Home/Home';
 import CustomLogin from './Auth-Components/CustomLogin';
 import DocumentsListCreate from './Pages/Documents/DocumentCreate';
 import ContractorCreate from './Pages/Contractors/ContractorCreate';
@@ -57,7 +57,7 @@ export const App: React.FC = () => (
             authProvider={authProvider}
             i18nProvider={defaultI18nProvider}
             loginPage={CustomLogin}
-            dashboard={Dashboard}
+            dashboard={Home}
         >
 
             <Resource name="documents" list={DocumentList} edit={DocumentsListEdit} create={DocumentsListCreate} show={DocumentShow} />
