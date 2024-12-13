@@ -1,79 +1,59 @@
-import React from "react";
-import CustomCard from "../../Components/Card";
-import AddIcon from "@mui/icons-material/Add";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { IconButton, styled, Box, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { Grid } from '@mui/material';
+import { MiniCard } from '../../Components/MiniCard';
+import CorporateFareRoundedIcon from '@mui/icons-material/CorporateFareRounded';
+import supabaseClient from '../../supabaseClient';
+import { useNavigate } from 'react-router-dom';
 
-const HomeContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-  flexWrap: "wrap",
-  justifyContent: "center",
-  gap: theme.spacing(4),
-  padding: theme.spacing(4)
-}));
+const Home = () => {
+  const [clientsCount, setClientsCount] = useState(0);
+  const navigate = useNavigate(); // React Router's navigation hook
 
-const Home: React.FC = () => {
-  const handleAdd = () => {
-    console.log("Add clicked from Home");
-  };
+  useEffect(() => {
+    const fetchClientsCount = async () => {
+      const { count, error } = await supabaseClient
+        .from('clients')
+        .select('*', { count: 'exact', head: true });
 
-  const handleNavigate = () => {
-    console.log("Navigate clicked from Home");
-  };
+      if (error) {
+        console.error('Error fetching clients count:', error);
+      } else {
+        setClientsCount(count || 0);
+      }
+    };
 
-  const sampleTable = (
-    <Table>
-    <h5>This is not dynamic yet</h5>
-      <TableHead>
-        <TableRow>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        <TableRow>
-          <TableCell>Total</TableCell>
-          <TableCell>3455</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>New This Month</TableCell>
-          <TableCell>+2</TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
-  );
+    fetchClientsCount();
+  }, []);
 
   return (
-    <HomeContainer>
-      <CustomCard
-        title="Client Management"
-        actions={
-          <Box display="flex" gap={1}>
-            <IconButton onClick={handleAdd} aria-label="add">
-              <AddIcon />
-            </IconButton>
-            <IconButton onClick={handleNavigate} aria-label="navigate">
-              <ArrowForwardIcon />
-            </IconButton>
-          </Box>
-        }
-        content={sampleTable} // Pass the table as content
-      />
-
-      <CustomCard
-        title="People Management"
-        actions={
-          <Box display="flex" gap={1}>
-            <IconButton onClick={handleAdd} aria-label="add">
-              <AddIcon />
-            </IconButton>
-            <IconButton onClick={handleNavigate} aria-label="navigate">
-              <ArrowForwardIcon />
-            </IconButton>
-          </Box>
-        }
-      />
-    </HomeContainer>
+    <Grid
+      container
+      spacing={3}
+      sx={{
+        padding: 3,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'stretch',
+      }}
+    >
+      {/* MiniCard for Clients */}
+      <Grid
+        item
+        xs={12}
+        sm={6}
+        md={4}
+        onClick={() => navigate('/clients')} // Handle routing when clicked
+        sx={{
+          cursor: 'pointer', // Make it look clickable
+        }}
+      >
+        <MiniCard
+          title="Clients"
+          value={clientsCount}
+          icon={<CorporateFareRoundedIcon />}
+        />
+      </Grid>
+    </Grid>
   );
 };
 

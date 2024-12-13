@@ -7,6 +7,10 @@ import {
   FilterButton,
   TopToolbar,
   useListContext,
+  Create,
+  SimpleForm,
+  ReferenceInput,
+  DateInput,
 } from 'react-admin';
 import { 
   Grid, 
@@ -116,7 +120,7 @@ const ClientGrid = () => {
 
               <IconButton 
                 size="small"
-                href={`#/clients/${record.id}`}
+                href={`/clients/${record.id}`}
                 className="edit-icon"
                 sx={{ 
                   position: 'absolute',
@@ -170,5 +174,19 @@ export const ClientList = () => (
   >
     <ClientGrid />
   </List>
+);
+
+export const ClientCreate = () => (
+  <Create>
+      <SimpleForm>
+          <TextInput source="name" />
+          <TextInput source="contact_number" />
+          <TextInput source="physical_address" />
+          <TextInput source="logo_url" />
+          <ReferenceInput source="client_representative_id" reference="users" />
+          <DateInput source="created_at" />
+          <DateInput source="updated_at" />
+      </SimpleForm>
+  </Create>
 );
 

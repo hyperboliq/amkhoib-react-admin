@@ -10,7 +10,8 @@ import { Category_documentList } from './Supabase-Components/Category_documentLi
 import { Placeholder_typeList } from './Supabase-Components/Placeholder_typeList';
 import { Document_placeholderList } from './Supabase-Components/Document_placeholderList';
 import { PlaceholderList } from './Supabase-Components/PlaceholderList';
-import { ClientList } from './Supabase-Components/ClientList';
+// import { ClientList } from './Supabase-Components/ClientList';
+import { ClientList } from './Pages/Clients/ClientList';
 import { Zzz_documentList } from './Supabase-Components/Zzz_documentList';
 import { ContractorList } from './Supabase-Components/ContractorList';
 import { ProjectList } from './Supabase-Components/ProjectList';
@@ -38,6 +39,7 @@ import { DisciplineCreate } from './Pages/Disciplines/DisciplinCreate';
 import DocumentsListEdit from './Pages/Documents/DocumentEdit';
 import { DisciplineEdit } from './Pages/Disciplines/DisciplinEdit';
 import ContractorEdit from './Pages/Contractors/ContractorEdit';
+import { ClientCreate } from './Supabase-Components/ClientList';
 
 
 const instanceUrl = "https://api.amkhoib.org";
@@ -66,7 +68,7 @@ export const App: React.FC = () => (
             <Resource name="placeholder_types" list={Placeholder_typeList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="document_placeholders" list={Document_placeholderList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="placeholders" list={PlaceholderList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
-            <Resource name="clients" list={ClientList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
+            <Resource name="clients" list={ClientList} edit={EditGuesser} create={ClientCreate} show={ShowGuesser} />
             <Resource name="zzz_documents" list={Zzz_documentList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="contractors" list={ContractorList} edit={ContractorEdit} create={ContractorCreate} show={ShowGuesser} />
             <Resource name="projects" list={ProjectList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
