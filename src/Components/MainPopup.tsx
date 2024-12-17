@@ -19,7 +19,7 @@ interface MainPopupProps {
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialog-paper': {
-    borderRadius: 16,
+    borderRadius: 8,
     padding: theme.spacing(3),
     maxWidth: 400,
     width: '100%',
@@ -54,6 +54,12 @@ export const MainPopup: React.FC<MainPopupProps> = ({
       onClose={onClose}
       open={open}
       aria-labelledby="customized-dialog-title"
+      BackdropProps={{
+        style: {
+          backgroundColor: 'rgba(0, 0, 0, 0.46)', // Darken the background
+          backdropFilter: 'blur(5px)', // Apply blur to the background
+        },
+      }}
     >
       <CloseButton aria-label="close" onClick={onClose}>
         <CloseIcon />
@@ -93,4 +99,3 @@ export const MainPopup: React.FC<MainPopupProps> = ({
     </StyledDialog>
   );
 };
-

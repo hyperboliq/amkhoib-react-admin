@@ -47,7 +47,7 @@ export const ClientListCard = ({
         sx={{
           height: 60,
           width: 60,
-          borderRadius: '4px',
+          borderRadius: '50px',
           objectFit: 'contain',
           marginLeft: 2,
         }}

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Grid, CircularProgress, Typography } from '@mui/material';
 import { ClientListCard } from '../../Components/ClientListCard';
-import supabase from '../../supabaseClient'; // Import the Supabase client
-import { SearchBox } from '../../Components/SearchBox'; // Import the SearchBox component
+import supabase from '../../supabaseClient';
+import { SearchBox } from '../../Components/SearchBox';
 import { AddButton } from '../../Components/Buttons/AddButton';
-import { MainPopup } from '../../Components/MainPopup'; // Import the MainPopup component
-import { PopupButton } from '../../Components/Buttons/PopupButton';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for routing
+import { useNavigate } from 'react-router-dom';
 
-// Define the type for a client
+// Define client
 interface Client {
   name: string;
   client_representative_id: string | null;
@@ -87,18 +85,9 @@ export const ClientList = () => {
     }
   };
 
-  // Open the popup
-  const handleAddButtonClick = () => {
-    setOpenPopup(true);
-  };
-
-  // Close the popup
-  const handleClosePopup = () => {
-    setOpenPopup(false);
-  };
 
   // Handle the "Add New Client" button click
-  const handlePopupButtonClick = () => {
+  const handleAddClientButtonClick = () => {
     // Navigate to the '/clients/create' route
     navigate('/clients/create');
   };
@@ -125,14 +114,14 @@ export const ClientList = () => {
             <SearchBox onSearch={handleSearch} placeholder="Search" fullWidth={false} />
             {/* Add margin-left to create space between SearchBox and AddButton */}
             <Box sx={{ marginLeft: 2 }}>
-                <AddButton onClick={handleAddButtonClick} />
+                <AddButton onClick={handleAddClientButtonClick} />
             </Box>
         </Box>
     </Box>
 
       <Grid container spacing={1}>
         {filteredClients.map((client, index) => (
-          <Grid item xs={12} sm={6} md={2} key={index}>
+          <Grid item xs={12} sm={6} md={3} key={index}>
             <ClientListCard 
               title={client.name} 
               subtitle={client.client_representative 
@@ -143,21 +132,6 @@ export const ClientList = () => {
           </Grid>
         ))}
       </Grid>
-
-      {/* MainPopup for adding a new client */}
-      <MainPopup
-        open={openPopup}
-        onClose={handleClosePopup}
-        title="Add Client"
-      >
-        {/* Add content inside the popup, such as a form */}
-        {/* Insert PopupButton inside the popup */}
-        <PopupButton
-          onClick={handlePopupButtonClick} // This will now navigate to '/clients/create'
-          text="Add New Client"
-          fullWidth={true}
-        />
-      </MainPopup>
     </Box>
   );
 };

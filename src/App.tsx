@@ -39,7 +39,8 @@ import { DisciplineCreate } from './Pages/Disciplines/DisciplinCreate';
 import DocumentsListEdit from './Pages/Documents/DocumentEdit';
 import { DisciplineEdit } from './Pages/Disciplines/DisciplinEdit';
 import ContractorEdit from './Pages/Contractors/ContractorEdit';
-import { ClientCreate } from './Supabase-Components/ClientList';
+// import { ClientCreate } from './Supabase-Components/ClientList';
+import { ClientCreate } from './Pages/Clients/ClientCreate';
 
 
 const instanceUrl = "https://api.amkhoib.org";

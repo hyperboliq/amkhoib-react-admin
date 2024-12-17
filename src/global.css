@@ -31,3 +31,26 @@
 .css-domn6v-MuiDrawer-docked-RaSidebar-root .RaSidebar-fixed {
     height: 100vh !important;
 }
+
+.css-bhp9pd-MuiPaper-root-MuiCard-root {
+    background-color: transparent !important;
+    -webkit-transition: box-shadow none !important;
+    box-shadow: none !important;
+}
+
+.css-1dzoida {
+    background-color: transparent !important;
+}
+
+.css-16j4qax {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.css-1ot2c21 {
+    margin-bottom: 0px !important;
+}
+
+.css-i3pbo {
+    margin-bottom: 8px !important;
+}
