@@ -29,7 +29,7 @@ import { CategoryList } from './Supabase-Components/CategoryList';
 import { NotificationList } from './Supabase-Components/NotificationList';
 import { defaultLightTheme, defaultDarkTheme } from './themes';
 // import ThemeToggler from './Layout-Components/ThemeToggler';
-import MyLayout from './Layout-Components/MyLayout';
+import CustomLayout from './Components/CustomLayout';
 // import { Dashboard } from './Supabase-Components/Dashboard';
 import Home from './Pages/Home/Home';
 import CustomLogin from './Auth-Components/CustomLogin';
@@ -53,7 +53,7 @@ export const App: React.FC = () => (
     <BrowserRouter>
     {/* <ThemeToggler /> */}
         <Admin
-            layout={MyLayout}  // Use your custom layout
+            layout={CustomLayout} // Use custom layout  // Use your custom layout
             theme={defaultLightTheme}  // Start theme
             // darkTheme={defaultDarkTheme}
             dataProvider={dataProvider}
