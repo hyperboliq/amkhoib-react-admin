@@ -176,17 +176,17 @@ export const ClientList = () => (
   </List>
 );
 
-export const ClientCreate = () => (
-  <Create>
-      <SimpleForm>
-          <TextInput source="name" />
-          <TextInput source="contact_number" />
-          <TextInput source="physical_address" />
-          <TextInput source="logo_url" />
-          <ReferenceInput source="client_representative_id" reference="users" />
-          <DateInput source="created_at" />
-          <DateInput source="updated_at" />
-      </SimpleForm>
-  </Create>
-);
+// export const ClientCreate = () => (
+//   <Create>
+//       <SimpleForm>
+//           <TextInput source="name" />
+//           <TextInput source="contact_number" />
+//           <TextInput source="physical_address" />
+//           <TextInput source="logo_url" />
+//           <ReferenceInput source="client_representative_id" reference="users" />
+//           <DateInput source="created_at" />
+//           <DateInput source="updated_at" />
+//       </SimpleForm>
+//   </Create>
+// );
 

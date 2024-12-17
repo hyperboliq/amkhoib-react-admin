@@ -9,14 +9,14 @@ interface TextFieldProps extends Omit<MuiTextFieldProps, 'variant'> {
 
 const StyledTextField = styled(MuiTextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
-    backgroundColor: '#ffffff', // Default background
+    backgroundColor: '#e8eff9', // Default background
     borderRadius: theme.shape.borderRadius,
     transition: theme.transitions.create(['background-color']),
     '&:hover': {
       backgroundColor: theme.palette.grey[50], // Optional lighter background on hover
     },
     '&.Mui-focused': {
-      backgroundColor: '#ffffff', // Focused background color
+      backgroundColor: '#e8eff9', // Focused background color
       boxShadow: 'none', // No shadow on focus
     },
   },

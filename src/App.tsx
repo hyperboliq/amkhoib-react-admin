@@ -41,6 +41,7 @@ import { DisciplineEdit } from './Pages/Disciplines/DisciplinEdit';
 import ContractorEdit from './Pages/Contractors/ContractorEdit';
 // import { ClientCreate } from './Supabase-Components/ClientList';
 import { ClientCreate } from './Pages/Clients/ClientCreate';
+import { ProjectCreate } from './Pages/Projects/ProjectCreate';
 
 
 const instanceUrl = "https://api.amkhoib.org";
@@ -72,7 +73,7 @@ export const App: React.FC = () => (
             <Resource name="clients" list={ClientList} edit={EditGuesser} create={ClientCreate} show={ShowGuesser} />
             <Resource name="zzz_documents" list={Zzz_documentList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="contractors" list={ContractorList} edit={ContractorEdit} create={ContractorCreate} show={ShowGuesser} />
-            <Resource name="projects" list={ProjectList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
+            <Resource name="projects" list={ProjectList} edit={EditGuesser} create={ProjectCreate} show={ShowGuesser} />
             <Resource name="field_types" list={Field_typeList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="user_roles" list={User_roleList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />
             <Resource name="contractor_disciplines" list={Contractor_disciplineList} edit={EditGuesser} create={CreateGuesser} show={ShowGuesser} />

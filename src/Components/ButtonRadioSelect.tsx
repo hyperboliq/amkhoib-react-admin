@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecordContext, useGetList } from 'react-admin';
+import { useGetList } from 'react-admin';
 import { Radio, RadioGroup, FormControl, Box, CircularProgress, styled } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 
@@ -8,6 +8,8 @@ interface ButtonRadioSelectProps {
   reference: string;
   label?: string;
   optionText?: string | ((record: any) => string);
+  value: string;
+  onChange: (value: string) => void;
 }
 
 const StyledButtonGroup = styled(Box)({
@@ -17,7 +19,7 @@ const StyledButtonGroup = styled(Box)({
 });
 
 const StyledButton = styled(Box)(({ theme }) => ({
-  padding: '2px 10px',
+  padding: '8px 20px',
   borderRadius: '20px',
   textTransform: 'none',
   fontSize: '14px',
@@ -28,7 +30,8 @@ const StyledButton = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'pointer',
-  border: '2px solid transparent',
+  border: '1px solid transparent',
+  transition: 'all 0.2s ease',
   '&:hover': {
     backgroundColor: '#e0effa',
   },
@@ -48,9 +51,10 @@ const CheckIconWrapper = styled('span')({
 export const ButtonRadioSelect = ({
   source,
   reference,
-  optionText = 'name'
+  optionText = 'name',
+  value,
+  onChange,
 }: ButtonRadioSelectProps) => {
-  const record = useRecordContext();
   const { data, isLoading } = useGetList(reference);
 
   if (isLoading) {
@@ -61,6 +65,14 @@ export const ButtonRadioSelect = ({
     );
   }
 
+  const filteredData = data
+    ?.filter((option: any) => option.name === 'Principle contractors' || option.name === 'Contractors')
+    .sort((a: any, b: any) => {
+      if (a.name === 'Principle contractors') return -1;
+      if (b.name === 'Principle contractors') return 1;
+      return 0;
+    });
+
   const getOptionText = (record: any) => {
     if (typeof optionText === 'function') {
       return optionText(record);
@@ -68,22 +80,27 @@ export const ButtonRadioSelect = ({
     return record[optionText];
   };
 
+  const handleSelect = (id: string) => {
+    onChange(id);
+  };
+
   return (
     <FormControl component="fieldset" fullWidth>
       <RadioGroup
         name={source}
-        value={record?.[source] || ''}
+        value={value}
         sx={{
           '& .MuiRadio-root': {
-            display: 'none', // Hide the default radio button
+            display: 'none',
           },
         }}
       >
         <StyledButtonGroup>
-          {data?.map((option: any) => (
+          {filteredData?.map((option: any) => (
             <StyledButton
               key={option.id}
-              className={record?.[source] === option.id ? 'selected' : ''}
+              className={value === option.id ? 'selected' : ''}
+              onClick={() => handleSelect(option.id)}
             >
               <Radio
                 value={option.id}
@@ -95,7 +112,7 @@ export const ButtonRadioSelect = ({
                   cursor: 'pointer',
                 }}
               />
-              {record?.[source] === option.id && (
+              {value === option.id && (
                 <CheckIconWrapper>
                   <CheckIcon sx={{ fontSize: 18 }} />
                 </CheckIconWrapper>

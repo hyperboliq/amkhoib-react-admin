@@ -40,11 +40,6 @@ const Home = () => {
     setOpenPopup(false);
   };
 
-  const handlePopupButtonClick = () => {
-    // Navigate to the '/clients/create' route
-    navigate('/clients/create');
-  };
-
   // Handle search query and filter clients
   const handleSearch = (query: string) => {
     // You can add your search functionality here
@@ -95,56 +90,52 @@ const Home = () => {
       </Grid>
 
       {/* MainPopup for adding a new client */}
-      <MainPopup
-        open={openPopup}
-        onClose={handleClosePopup}
-        title="What would you like to add?"
-      >
-        <Grid container spacing={1}>
-          <Grid item xs={12}>
-            <PopupButton
-              onClick={handlePopupButtonClick} // This will now navigate to '/clients/create'
-              text="New Client"
-              fullWidth={true}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <PopupButton
-              onClick={handlePopupButtonClick} // This will now navigate to '/clients/create'
-              text="New Project"
-              fullWidth={true}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <PopupButton
-              onClick={handlePopupButtonClick} // This will now navigate to '/clients/create'
-              text="New Person"
-              fullWidth={true}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <PopupButton
-              onClick={handlePopupButtonClick} // This will now navigate to '/clients/create'
-              text="New Contractor"
-              fullWidth={true}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <PopupButton
-              onClick={handlePopupButtonClick} // This will now navigate to '/clients/create'
-              text="New Master Safety Folder"
-              fullWidth={true}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <PopupButton
-              onClick={handlePopupButtonClick} // This will now navigate to '/clients/create'
-              text="New Master Safety File"
-              fullWidth={true}
-            />
-          </Grid>
+      <MainPopup open={openPopup} onClose={handleClosePopup} title="What would you like to add?">
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <PopupButton
+            onClick={() => navigate('/clients/create')}
+            text="New Client"
+            fullWidth={true}
+          />
         </Grid>
-      </MainPopup>
+        <Grid item xs={12}>
+          <PopupButton
+            onClick={() => navigate('/projects/create')}
+            text="New Project"
+            fullWidth={true}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <PopupButton
+            onClick={() => navigate('/persons/create')}
+            text="New Person"
+            fullWidth={true}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <PopupButton
+            onClick={() => navigate('/contractors/create')}
+            text="New Contractor"
+            fullWidth={true}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <PopupButton
+            onClick={() => navigate('/safety-folders/create')}
+            text="New Master Safety Folder"
+            fullWidth={true}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <PopupButton
+            onClick={() => navigate('/safety-files/create')}
+            text="New Master Safety File"
+            fullWidth={true}
+          />
+        </Grid>
+      </Grid>
+    </MainPopup>
     </Box>
   );
 };
