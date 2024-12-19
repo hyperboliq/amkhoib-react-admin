@@ -1,4 +1,4 @@
-import { Datagrid, DateField, DateInput, List, ReferenceField, ReferenceInput, TextField, TextInput } from 'react-admin';
+import { Datagrid, DateField, DateInput, EditButton, List, ReferenceField, ReferenceInput, TextField, TextInput } from 'react-admin';
 
 const filters = [
     <TextInput source="id" />,
@@ -18,6 +18,7 @@ export const ContractorList = () => (
             <ReferenceField source="contractor_representative" reference="users" />
             <DateField source="created_at" />
             <DateField source="updated_at" />
+            <EditButton />
         </Datagrid>
     </List>
 );

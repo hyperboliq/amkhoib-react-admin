@@ -99,6 +99,30 @@
                     transform: rotate(360deg);
                 }
             }
+
+             /* Scrollbar Styles */
+            ::-webkit-scrollbar {
+            width: 4px;
+            height: 0%;
+            }
+            
+            /* Track */
+            ::-webkit-scrollbar-track {
+            /* box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.568);  */
+            border-radius: 12px;
+            }
+            
+            /* Handle */
+            ::-webkit-scrollbar-thumb {
+            background: #055da4; 
+            border-radius: 12px;
+            }
+            
+            /* Handle on hover */
+            ::-webkit-scrollbar-thumb:hover {
+            background: #055da4; 
+            cursor: grab;
+            }
         </style>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
