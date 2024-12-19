@@ -1,136 +1,216 @@
-// import { Datagrid, DateField, DateInput, List, ReferenceField, ReferenceInput, TextField, TextInput } from 'react-admin';
-
-// const filters = [
-//     <TextInput source="id" />,
-//     <TextInput source="name" />,
-//     <ReferenceInput source="status_id" reference="statuses" />,
-//     <ReferenceInput source="assigned_client_id" reference="clients" />,
-//     <ReferenceInput source="assigned_consultant_id" reference="users" />,
-//     <ReferenceInput source="assigned_contractor_id" reference="contractors" />,
-//     <ReferenceInput source="assigned_admin_id" reference="users" />,
-//     <DateInput source="created_at" />,
-//     <DateInput source="updated_at" />
-// ];
-
-// export const ProjectList = () => (
-//     <List filters={filters}>
-//         <Datagrid>
-//             <TextField source="id" />
-//             <TextField source="name" />
-//             <ReferenceField source="status_id" reference="statuses" />
-//             <ReferenceField source="assigned_client_id" reference="clients" />
-//             <ReferenceField source="assigned_consultant_id" reference="users" />
-//             <ReferenceField source="assigned_contractor_id" reference="contractors" />
-//             <ReferenceField source="assigned_admin_id" reference="users" />
-//             <DateField source="created_at" />
-//             <DateField source="updated_at" />
-//         </Datagrid>
-//     </List>
-// );
-
+import React, { useState } from 'react';
 import {
-    Datagrid,
-    DateField,
-    DateInput,
-    List,
-    ReferenceField,
-    ReferenceInput,
-    TextField,
-    TextInput,
-    CreateButton,
-    FilterButton,
-    TopToolbar,
-    SelectInput,
-  } from 'react-admin';
-  import { Card, CardContent, Box, Typography, Tabs, Tab } from '@mui/material';
-  
-  const ListActions = () => (
-    <TopToolbar>
-      <FilterButton />
-      <CreateButton
+  Datagrid,
+  List,
+  TextField,
+  ReferenceField,
+  DateField,
+  Filter,
+  SearchInput,
+  TopToolbar,
+  CreateButton,
+  useNotify,
+  useRedirect,
+  ImageField 
+} from 'react-admin';
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Breadcrumbs,
+  Link,
+  Button,
+} from '@mui/material';
+import { SearchBox } from '../Components/SearchBox'; // Custom component
+import { AddButton } from '../Components/Buttons/AddButton'; // Custom component
+
+// Filters component
+const ProjectFilters = ({ onTabChange }: { onTabChange: (tab: 'open' | 'archived') => void }) => {
+  const [activeTab, setActiveTab] = useState<'open' | 'archived'>('open');
+
+  const handleTabChange = (tab: 'open' | 'archived') => {
+    setActiveTab(tab);
+    onTabChange(tab);
+  };
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        mb: 2,
+      }}
+    >
+      <Button
+        onClick={() => handleTabChange('open')}
         sx={{
-          backgroundColor: '#2563eb',
-          '&:hover': {
-            backgroundColor: '#1d4ed8',
-          },
+          width: 148,
+          height: 33,
+          borderRadius: '32px',
+          backgroundColor: '#2593D10D',
+          border: activeTab === 'open' ? '2px solid #025EA340' : 'none',
+          color: '#025EA3',
+          fontWeight: 'bold',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
-        label="New project"
-      />
-    </TopToolbar>
-  );
-  
-  const filters = [
-    <TextInput source="q" label="Search" alwaysOn />,
-    <ReferenceInput source="status_id" reference="statuses" />,
-    <ReferenceInput source="assigned_client_id" reference="clients" />,
-    <ReferenceInput source="assigned_consultant_id" reference="users" />,
-    <ReferenceInput source="assigned_contractor_id" reference="contractors" />,
-    <ReferenceInput source="assigned_admin_id" reference="users" />,
-    <DateInput source="created_at" />,
-    <DateInput source="updated_at" />
-  ];
-  
-  const ProjectFilters = () => (
-    <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
-      <Tabs value={0}>
-        <Tab label="Open projects" />
-        <Tab label="Archived projects" />
-      </Tabs>
+      >
+        {activeTab === 'open' && '✔'} Open
+      </Button>
+      <Box sx={{ marginLeft: 2 }}>
+        <Button
+          onClick={() => handleTabChange('archived')}
+          sx={{
+            width: 148,
+            height: 33,
+            borderRadius: '32px',
+            backgroundColor: '#2593D10D',
+            border: activeTab === 'archived' ? '2px solid #025EA340' : 'none',
+            color: '#025EA3',
+            fontWeight: 'bold',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {activeTab === 'archived' && '✔'} Archived
+        </Button>
+      </Box>
     </Box>
   );
-  
-  const CustomDatagrid = () => (
-    <Datagrid bulkActionButtons={false} sx={{
+};
+
+// Custom DataGrid to show project data
+const CustomDatagrid = () => (
+  <Datagrid
+    bulkActionButtons={false}
+    rowClick="edit"
+    sx={{
       '& .RaDatagrid-headerCell': {
-        backgroundColor: '#f8fafc',
+        backgroundColor: '#f3f4f6',
+        fontWeight: 'bold',
       },
       '& .RaDatagrid-row': {
         '&:hover': {
-          backgroundColor: '#f1f5f9',
+          backgroundColor: '#f9fafb',
         },
       },
-    }}>
-      <ReferenceField
-        source="assigned_client_id"
-        reference="clients"
-        link={false}
-        sortable={false}
+      backgroundColor: 'transparent', // Set the table background to transparent
+      border: 'none', // Remove table border
+      boxShadow: 'none', // Remove table shadow
+    }}
+  >
+    {/* Project Logo column: Displayed as a rounded image */}
+    <ImageField
+      source="project_logo"
+      label={false}  // No label for the image column
+      sx={{ '& img': { maxWidth: 50, maxHeight: 50, objectFit: 'contain', borderRadius: '50%' } }}
+    />
+    
+    {/* Project Name */}
+    <TextField source="name" label="Project Name" />
+    
+    {/* Client */}
+    <ReferenceField source="assigned_client_id" reference="clients" label="Client">
+      <TextField source="name" />
+    </ReferenceField>
+    
+    {/* Location */}
+    <TextField source="location" label="Location" />
+    
+    {/* Sub-contractors */}
+    <TextField source="sub_contractors" label="Sub-contractors" />
+    
+    {/* Disciplines */}
+    <TextField source="disciplines" label="Disciplines" />
+    
+    {/* Files Completed */}
+    <TextField source="files_completed" label="Files Completed" />
+  </Datagrid>
+);
+
+
+
+// Project List component
+export const ProjectList = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [tabFilter, setTabFilter] = useState('Open');
+  const notify = useNotify();
+  const redirect = useRedirect();
+
+  // Handle search query
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  // Handle tab change (for "Open" and "Archived" projects)
+  const handleTabChange = (tab: 'Open' | 'Archived') => {
+    setTabFilter(tab);
+  };
+
+  const handleAddProject = () => {
+    redirect('/projects/create');
+  };
+
+  return (
+    <Box sx={{ padding: 4 }}>
+      {/* Breadcrumbs and Actions Section */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mb: 2,
+        }}
       >
-        <TextField source="logo" />
-      </ReferenceField>
-      <TextField 
-        source="name" 
-        label="Project name"
-        sx={{ fontWeight: 'medium' }}
-      />
-      <TextField 
-        source="location" 
-        label="Location"
-        sx={{ color: 'text.secondary' }}
-      />
-    </Datagrid>
-  );
-  
-  export const ProjectList = () => (
-    <List
-      actions={<ListActions />}
-      filters={filters}
-      filterDefaultValues={{ status: 'open' }}
-      sx={{
-        '& .RaList-main': {
-          margin: 0,
-          padding: 0,
-          boxShadow: 'none',
-        },
-      }}
-    >
-      <Card>
+        <Breadcrumbs separator=">" aria-label="breadcrumb">
+          <Link
+            underline="hover"
+            color="inherit"
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              redirect('/');
+            }}
+          >
+            Home
+          </Link>
+          <Typography color="text.primary">Projects</Typography>
+        </Breadcrumbs>
+
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <SearchBox onSearch={handleSearch} placeholder="Search Projects" fullWidth={false} />
+          <Box sx={{ marginLeft: 2 }}>
+            <AddButton onClick={handleAddProject} />
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Projects Table */}
+      <Card elevation={0} sx={{ backgroundColor: 'transparent' }}> {/* Remove Card shadow */}
         <CardContent>
-          <ProjectFilters />
-          <CustomDatagrid />
+          {/* Filters aligned to the right */}
+          <ProjectFilters onTabChange={handleTabChange} />
+          <List
+            basePath="/projects"
+            resource="projects"
+            filters={null}
+            filter={{ status: tabFilter }}
+            sx={{
+              '& .RaList-main': {
+                margin: 0,
+                padding: 0,
+                boxShadow: 'none', // Remove box shadow from List
+              },
+            }}
+          >
+            <CustomDatagrid />
+          </List>
         </CardContent>
       </Card>
-    </List>
+    </Box>
   );
-  
-  
+};
