@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Grid, Box, Typography } from '@mui/material';
 import { MiniCard } from '../../Components/MiniCard';
 import CorporateFareRoundedIcon from '@mui/icons-material/CorporateFareRounded';
+import HomeWorkIcon from '@mui/icons-material/HomeWork';
 import supabaseClient from '../../supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import { SearchBox } from '../../Components/SearchBox';
@@ -162,6 +163,23 @@ const Home = () => {
             value={documentsCount}
             icon={<InsertDriveFileIcon />}
             onClick={() => navigate('/documents')}
+          />
+        </Grid>
+         {/* MiniCard for Clients */}
+         <Grid
+          item
+          xs={12}
+          sm={6}
+          md={4}
+          onClick={() => navigate('/projects')} // Handle routing when clicked
+          sx={{
+            cursor: 'pointer', // Make it look clickable
+          }}
+        >
+          <MiniCard
+            title="Projects"
+            value={clientsCount}
+            icon={<HomeWorkIcon />}
           />
         </Grid>
       </Grid>
