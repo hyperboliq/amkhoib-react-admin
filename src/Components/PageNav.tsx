@@ -8,6 +8,7 @@ interface PageNavProps {
   onNext?: () => void;
   isNextDisabled?: boolean;
   onSave?: () => void; // Added for save button functionality
+  saveButtonText?: string; // New prop for custom button text
 }
 
 const NavContainer = styled(Box)(({ theme }) => ({
@@ -41,6 +42,7 @@ export const PageNav = ({
   onSave,
   onNext,
   isNextDisabled = false,
+  saveButtonText = 'Save', // Default button text
 }: PageNavProps) => {
   return (
     <NavContainer>
@@ -52,14 +54,17 @@ export const PageNav = ({
 
       {/* Custom Save Button */}
       {onSave && (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={onSave}
-          sx={{ textTransform: 'none', fontSize: '14px' }}
-        >
-          Save
-        </Button>
+       <Button
+       variant="contained"
+       onClick={onSave}
+       sx={{ 
+         textTransform: 'none', 
+         fontSize: '14px',
+         backgroundColor: '#015fa3',
+       }}
+     >
+       {saveButtonText}
+     </Button>
       )}
     </NavContainer>
   );

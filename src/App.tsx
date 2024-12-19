@@ -6,27 +6,27 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
 import { CreateGuesser, EditGuesser, ForgotPasswordPage, ListGuesser, LoginPage, SetPasswordPage, ShowGuesser, defaultI18nProvider, supabaseDataProvider, supabaseAuthProvider, AdminGuesser} from 'ra-supabase'; 
 import { CustomForgotPasswordPage } from './Auth-Components/CustomForgotPassword';
-import { Category_documentList } from './Supabase-Components/Category_documentList';
-import { Placeholder_typeList } from './Supabase-Components/Placeholder_typeList';
-import { Document_placeholderList } from './Supabase-Components/Document_placeholderList';
-import { PlaceholderList } from './Supabase-Components/PlaceholderList';
+import { Category_documentList } from './Supabase-Pages/Category_documentList';
+import { Placeholder_typeList } from './Supabase-Pages/Placeholder_typeList';
+import { Document_placeholderList } from './Supabase-Pages/Document_placeholderList';
+import { PlaceholderList } from './Supabase-Pages/PlaceholderList';
 // import { ClientList } from './Supabase-Components/ClientList';
 import { ClientList } from './Pages/Clients/ClientList';
-import { Zzz_documentList } from './Supabase-Components/Zzz_documentList';
-import { ContractorList } from './Supabase-Components/ContractorList';
-import { ProjectList } from './Supabase-Components/ProjectList';
-import { Field_typeList } from './Supabase-Components/Field_typeList';
-import { User_roleList } from './Supabase-Components/User_roleList';
-import { Contractor_disciplineList } from './Supabase-Components/Contractor_disciplineList';
-import { Contractor_typeList } from './Supabase-Components/Contractor_typeList';
-import { DocumentList, DocumentShow } from './Supabase-Components/DocumentList';
-import { StatusList } from './Supabase-Components/StatusList';
-import { UserList } from './Supabase-Components/UserList';
-import { Project_documentList } from './Supabase-Components/Project_documentList';
-import { DisciplineList, DisciplineShow } from './Supabase-Components/DisciplineList';
-import { Discipline_documentList } from './Supabase-Components/Discipline_documentList';
-import { CategoryList } from './Supabase-Components/CategoryList';
-import { NotificationList } from './Supabase-Components/NotificationList';
+import { Zzz_documentList } from './Supabase-Pages/Zzz_documentList';
+import { ContractorList } from './Supabase-Pages/ContractorList';
+// import { ProjectList } from './Supabase-Pages/ProjectList';
+import { Field_typeList } from './Supabase-Pages/Field_typeList';
+import { User_roleList } from './Supabase-Pages/User_roleList';
+import { Contractor_disciplineList } from './Supabase-Pages/Contractor_disciplineList';
+import { Contractor_typeList } from './Supabase-Pages/Contractor_typeList';
+import { DocumentList, DocumentShow } from './Supabase-Pages/DocumentList';
+import { StatusList } from './Supabase-Pages/StatusList';
+import { UserList } from './Supabase-Pages/UserList';
+import { Project_documentList } from './Supabase-Pages/Project_documentList';
+import { DisciplineList, DisciplineShow } from './Supabase-Pages/DisciplineList';
+import { Discipline_documentList } from './Supabase-Pages/Discipline_documentList';
+import { CategoryList } from './Supabase-Pages/CategoryList';
+import { NotificationList } from './Supabase-Pages/NotificationList';
 import { defaultLightTheme, defaultDarkTheme } from './themes';
 // import ThemeToggler from './Layout-Components/ThemeToggler';
 import CustomLayout from './Components/CustomLayout';
@@ -40,8 +40,10 @@ import DocumentsListEdit from './Pages/Documents/DocumentEdit';
 import { DisciplineEdit } from './Pages/Disciplines/DisciplinEdit';
 import ContractorEdit from './Pages/Contractors/ContractorEdit';
 // import { ClientCreate } from './Supabase-Components/ClientList';
-import { ClientCreate } from './Pages/Clients/ClientCreate';
+import ClientCreate from './Pages/Clients/ClientCreate';
 import { ProjectCreate } from './Pages/Projects/ProjectCreate';
+import ProjectList from './Pages/Projects/ProjectList';
+import { ToastProvider } from './Components/Toast/ToastContext';
 
 
 const instanceUrl = "https://api.amkhoib.org";
@@ -53,6 +55,7 @@ const authProvider = supabaseAuthProvider(supabaseClient, {});
 export const App: React.FC = () => (
     <BrowserRouter>
     {/* <ThemeToggler /> */}
+    <ToastProvider>
         <Admin
             layout={CustomLayout} // Use custom layout  // Use your custom layout
             theme={defaultLightTheme}  // Start theme
@@ -93,7 +96,10 @@ export const App: React.FC = () => (
                 <Route path={SetPasswordPage.path} element={<SetPasswordPage />} />
                 <Route path={CustomForgotPasswordPage.path} element={<CustomForgotPasswordPage />} />
             </CustomRoutes>
+
+            
         </Admin>
+    </ToastProvider>
     </BrowserRouter>
 );
 

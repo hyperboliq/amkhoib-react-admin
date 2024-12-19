@@ -17,9 +17,10 @@ export const ClientListCard = ({
         display: 'flex',
         alignItems: 'center',
         padding: 2,
-        borderRadius: 4,
+        borderRadius: 2,
         boxShadow: '0px 0px 2px rgba(0, 0, 0, 0.1)', // Minimal shadow
         maxWidth: 400,
+        maxHeight: 150,
       }}
     >
       {/* Text content */}

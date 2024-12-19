@@ -40,6 +40,7 @@
 
 .css-1dzoida {
     background-color: transparent !important;
+    min-height: 0px !important;
 }
 
 .css-16j4qax {
@@ -57,4 +58,8 @@
 
 .css-bhp9pd-MuiPaper-root-MuiCard-root {
     background-color: transparent !important;
+}
+
+.css-cazu46 {
+    padding: 2px 10px !important;
 }

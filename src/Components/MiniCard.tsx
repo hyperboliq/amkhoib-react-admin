@@ -5,15 +5,18 @@ interface MiniCardProps {
   title: string;
   value: number;
   icon?: React.ReactNode;
+  onClick?: () => void; // Add onClick prop
 }
 
 export const MiniCard = ({ 
   title = "Clients", 
   value = 2678,
-  icon = <DescriptionIcon />
+  icon = <DescriptionIcon />,
+  onClick // Destructure onClick
 }: MiniCardProps) => {
   return (
     <Card 
+      onClick={onClick} // Use onClick here
       sx={{
         padding: 2,
         borderRadius: 4,
@@ -24,6 +27,7 @@ export const MiniCard = ({
         position: 'relative',
         justifyContent: 'space-between',
         boxShadow: '0px 0px 2px rgba(0, 0, 0, 0.1)', // Minimal shadow
+        cursor: onClick ? 'pointer' : 'default', // Change cursor if clickable
       }}
     >
       {/* Top-left icon */}

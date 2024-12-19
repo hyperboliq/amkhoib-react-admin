@@ -1,19 +1,19 @@
+// ClientCreate.tsx
 import React, { useState } from 'react';
 import { Create, SimpleForm } from 'react-admin';
 import { TextField } from '../../Components/TextField';
 import { Box } from '@mui/material';
-import { ButtonRadioSelect } from '../../Components/ButtonRadioSelect';
+import { ButtonRadioSelect } from '../../Components/Buttons/ButtonRadioSelect';
 import { UploadImageButton } from '../../Components/Buttons/UploadImageButton';
 import { PageNav } from '../../Components/PageNav';
 import { useNavigate } from 'react-router-dom';
-import { MainPopup } from '../../Components/MainPopup';
-import PrimaryButton from '../../Components/Buttons/PrimaryButton';
-import SecondaryButton from '../../Components/Buttons/SecondaryButton';
-import supabaseClient from '../../supabaseClient'; // Ensure this is imported
+import supabaseClient from '../../supabaseClient'; 
+import { useToast } from '../../Components/Toast/ToastContext';
 
-export const ClientCreate = () => {
+const ClientCreate = () => {
   const navigate = useNavigate();
-  const [popupOpen, setPopupOpen] = useState(false);
+  const { showMessage } = useToast(); // Use the context
+
   const [clientTypeId, setClientTypeId] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [physicalAddress, setPhysicalAddress] = useState<string>('');
@@ -26,11 +26,10 @@ export const ClientCreate = () => {
   };
 
   const handleBack = () => {
-    navigate(-1); // Navigates to the previous page
+    navigate(-1); 
   };
 
   const handleOnSave = async () => {
-    // Save client data to the database
     const { error } = await supabaseClient.from('clients').insert({
       client_type_id: clientTypeId,
       name,
@@ -44,22 +43,13 @@ export const ClientCreate = () => {
       console.error('Error saving client:', error);
     } else {
       console.log('Client saved successfully');
-      setPopupOpen(true); // Show popup when save is successful
+      showMessage('Your client has been added successfully', 'success'); // Use the context to show the message
+      navigate('/clients');
     }
   };
 
-  const handlePopupClose = () => {
-    setPopupOpen(false);
-    // Optionally navigate somewhere if needed
-  };
-
-  const handleCreateProject = () => {
-    // Navigate to the project create page
-    navigate('/projects/create');
-  };
-
   return (
-    <Create>
+    <Create resource="clients">
       <Box
         sx={{
           display: 'flex',
@@ -83,14 +73,15 @@ export const ClientCreate = () => {
             title="What are your client details?"
             onBack={handleBack}
             onSave={handleOnSave}
+            saveButtonText="Add client"
           />
           <SimpleForm toolbar={false}>
-          <ButtonRadioSelect
-            source="client_type_id"
-            reference="client_types"
-            value={clientTypeId}
-            onChange={(newValue) => setClientTypeId(newValue)}
-          />
+            <ButtonRadioSelect
+              source="client_type_id"
+              reference="client_types"
+              value={clientTypeId}
+              onChange={(newValue) => setClientTypeId(newValue)}
+            />
             <TextField
               source="name"
               label="Company legal name"
@@ -129,24 +120,6 @@ export const ClientCreate = () => {
           </SimpleForm>
         </Box>
       </Box>
-
-      {/* MainPopup to confirm project creation */}
-      <MainPopup
-        open={popupOpen}
-        onClose={handlePopupClose}
-        title="Save Successful"
-        subtitle="Would you like to Create A Project?"
-      >
-        <Box
-          display="flex"
-          justifyContent="center"
-          gap={2} // Adds spacing between the buttons
-          mt={2} // Margin top
-        >
-          <SecondaryButton label="No, skip" onClick={handlePopupClose} />
-          <PrimaryButton label="Add Project" onClick={handleCreateProject} />
-        </Box>
-      </MainPopup>
     </Create>
   );
 };

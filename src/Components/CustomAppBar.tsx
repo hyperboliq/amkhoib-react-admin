@@ -67,9 +67,9 @@ export const CustomAppBar = () =>  {
               <div style={{ display: 'flex', alignItems: 'center' }}>
                   {/* Navigation Links */}
                   {isActive('/') ? (
-                      <ActiveLink to="/">Dashboard</ActiveLink>
+                      <ActiveLink to="/">Home</ActiveLink>
                   ) : (
-                      <StyledLink to="/">Dashboard</StyledLink>
+                      <StyledLink to="/">Home</StyledLink>
                   )}
                   {isActive('/clients') ? (
                       <ActiveLink to="/clients">Clients</ActiveLink>
