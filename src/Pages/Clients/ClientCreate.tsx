@@ -1,5 +1,5 @@
 // ClientCreate.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Create, SimpleForm } from 'react-admin';
 import { TextField } from '../../Components/TextField';
 import { Box } from '@mui/material';
@@ -9,6 +9,13 @@ import { PageNav } from '../../Components/PageNav';
 import { useNavigate } from 'react-router-dom';
 import supabaseClient from '../../supabaseClient'; 
 import { useToast } from '../../Components/Toast/ToastContext';
+import DropDown from '../../Components/DropDown';
+
+interface Province {
+  id: string;
+  province_name: string;
+}
+
 
 const ClientCreate = () => {
   const navigate = useNavigate();
@@ -20,6 +27,7 @@ const ClientCreate = () => {
   const [suburb, setSuburb] = useState<string>('');
   const [city, setCity] = useState<string>('');
   const [province, setProvince] = useState<string>('');
+  const [provinces, setProvinces] = useState<Province[]>([]);
 
   const handleImageUpload = (file: File) => {
     console.log('Uploaded file:', file);
@@ -28,6 +36,21 @@ const ClientCreate = () => {
   const handleBack = () => {
     navigate(-1); 
   };
+
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      const { data, error } = await supabaseClient.from('provinces').select('id, province_name');
+
+      if (error) {
+        console.error('Error fetching provinces:', error);
+        return;
+      }
+
+      setProvinces(data); // Set the provinces data
+    };
+
+    fetchProvinces();
+  }, []);
 
   const handleOnSave = async () => {
     const { error } = await supabaseClient.from('clients').insert({
@@ -106,13 +129,13 @@ const ClientCreate = () => {
               value={city}
               onChange={(e) => setCity(e.target.value)}
             />
-            <TextField
-              source="province"
-              label="Province"
-              value={province}
-              onChange={(e) => setProvince(e.target.value)}
-              sx={{ width: '50%' }}
-            />
+            <DropDown
+                label="Province"
+                value={province}
+                onChange={(e) => setProvince(e.target.value)}
+                options={provinces.map((p) => ({ value: p.id, label: p.province_name }))}
+                sx={{ width: '50%' }}
+              />
 
             <Box sx={{ marginTop: '16px' }}>
               <UploadImageButton onImageUpload={handleImageUpload} />

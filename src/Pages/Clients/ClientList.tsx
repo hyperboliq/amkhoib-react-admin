@@ -121,7 +121,7 @@ export const ClientList = () => {
 
       <Grid container spacing={1}>
         {filteredClients.map((client, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
+          <Grid item xs={12} sm={6} md={2} key={index}>
             <ClientListCard 
               title={client.name} 
               subtitle={client.client_representative 

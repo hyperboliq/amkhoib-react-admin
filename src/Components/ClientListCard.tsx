@@ -4,16 +4,12 @@ interface ClientListCardProps {
   title: string;
   subtitle: string;
   imageUrl: string;
-  onClick?: () => void;
-  sx?: object;
 }
 
 export const ClientListCard = ({
   title = "Group Five",
   subtitle = "Ayanda Mthembu",
-  imageUrl = "https://via.placeholder.com/80",
-  onClick,
-  sx = {}
+  imageUrl = "https://via.placeholder.com/80"
 }: ClientListCardProps) => {
   return (
     <Card 
@@ -25,9 +21,7 @@ export const ClientListCard = ({
         boxShadow: '0px 0px 2px rgba(0, 0, 0, 0.1)', // Minimal shadow
         maxWidth: 400,
         maxHeight: 150,
-        ...sx
       }}
-      onClick={onClick}
     >
       {/* Text content */}
       <Box sx={{ flex: 1 }}>
@@ -62,4 +56,3 @@ export const ClientListCard = ({
     </Card>
   );
 };
-

@@ -21,10 +21,14 @@ interface Client {
   logo_url: string | null;
 }
 
+interface Province {
+  id: string;
+  province_name: string;
+}
+
 export const ProjectCreate = () => {
   const navigate = useNavigate();
   const { showMessage } = useToast();
-
   const [activeStep, setActiveStep] = useState(0);
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
@@ -40,6 +44,7 @@ export const ProjectCreate = () => {
   const [projectOwner, setProjectOwner] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
+  const [provinces, setProvinces] = useState<Province[]>([]);
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -62,6 +67,21 @@ export const ProjectCreate = () => {
     };
 
     fetchClients();
+  }, []);
+
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      const { data, error } = await supabaseClient.from('provinces').select('id, province_name');
+
+      if (error) {
+        console.error('Error fetching provinces:', error);
+        return;
+      }
+
+      setProvinces(data); // Set the provinces data
+    };
+
+    fetchProvinces();
   }, []);
 
   useEffect(() => {
@@ -94,6 +114,7 @@ export const ProjectCreate = () => {
       suburb,
       city,
       province,
+      project_owner: projectOwner,
     });
 
     if (error) {
@@ -224,13 +245,21 @@ export const ProjectCreate = () => {
               value={city}
               onChange={(e) => setCity(e.target.value)}
             />
-            <TextField
+            {/* <TextField
               source="province"
               label="Province"
               value={province}
               onChange={(e) => setProvince(e.target.value)}
               sx={{ width: '50%' }}
-            />
+            /> */}
+             {/* Replace TextField with DropDown for Province */}
+             <DropDown
+                label="Province"
+                value={province}
+                onChange={(e) => setProvince(e.target.value)}
+                options={provinces.map((p) => ({ value: p.id, label: p.province_name }))}
+                sx={{ width: '50%' }}
+              />
           </>
         );
       default:

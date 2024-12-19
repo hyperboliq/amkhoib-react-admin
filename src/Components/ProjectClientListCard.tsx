@@ -52,8 +52,8 @@ export const ProjectClientListCard = ({
         src={imageUrl}
         alt={`${title} logo`}
         sx={{
-          height: 60,
-          width: 60,
+          height: 50,
+          width: 50,
           borderRadius: '50px',
           objectFit: 'contain',
           marginLeft: 2,

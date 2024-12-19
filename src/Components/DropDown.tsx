@@ -6,6 +6,7 @@ interface DropDownProps {
   value: string;
   onChange: (event: SelectChangeEvent) => void;
   options: { value: string; label: string }[];
+  sx?: object; // Add the sx prop
 }
 
 const StyledFormControl = styled(FormControl)(({ theme }) => ({
@@ -39,11 +40,15 @@ const StyledFormControl = styled(FormControl)(({ theme }) => ({
   '& .MuiInputLabel-outlined.Mui-focused': {
     color: theme.palette.text.secondary,
   },
+  // Match the height and padding of the TextField
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(2, 1.5), // Match the padding of the TextField
+  },
 }));
 
-const DropDown: React.FC<DropDownProps> = ({ label, value, onChange, options }) => {
+const DropDown: React.FC<DropDownProps> = ({ label, value, onChange, options, sx }) => {
   return (
-    <StyledFormControl fullWidth variant="outlined">
+    <StyledFormControl fullWidth variant="outlined" sx={sx}>
       <InputLabel>{label}</InputLabel>
       <Select
         value={value}
