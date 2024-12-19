@@ -5,6 +5,7 @@ import { useInput } from 'react-admin'; // Importing necessary hooks from react-
 interface TextFieldProps extends Omit<MuiTextFieldProps, 'variant'> {
   label: string;
   source: string; // Add the source prop to your custom TextField
+  style?: React.CSSProperties; // Add a style prop
 }
 
 const StyledTextField = styled(MuiTextField)(({ theme }) => ({
@@ -44,7 +45,7 @@ const StyledTextField = styled(MuiTextField)(({ theme }) => ({
 }));
 
 // Custom TextField that works with react-admin form
-export const TextField: React.FC<TextFieldProps> = ({ label, source, ...props }) => {
+export const TextField: React.FC<TextFieldProps> = ({ label, source, style, ...props }) => {
   const {
     field: { value, onChange },
     fieldState: { error },
@@ -59,6 +60,7 @@ export const TextField: React.FC<TextFieldProps> = ({ label, source, ...props })
       onChange={onChange}
       error={!!error}
       helperText={error?.message}
+      style={style} // Apply the style prop
       {...props}
     />
   );

@@ -46,6 +46,7 @@
 .css-16j4qax {
     background-color: transparent !important;
     box-shadow: none !important;
+    max-width: 700px !important;
 }
 
 .css-1ot2c21 {
@@ -62,4 +63,8 @@
 
 .css-cazu46 {
     padding: 2px 10px !important;
+}
+
+.css-d5xdkw-MuiStepper-root {
+    display: none !important;
 }
