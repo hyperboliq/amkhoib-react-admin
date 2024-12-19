@@ -11,7 +11,10 @@ import {
   CreateButton,
   useNotify,
   useRedirect,
-  ImageField 
+  ImageField,
+  WrapperField,
+  useGetOne,
+  useFieldValue
 } from 'react-admin';
 import {
   Box,
@@ -21,15 +24,39 @@ import {
   Breadcrumbs,
   Link,
   Button,
+  Avatar
 } from '@mui/material';
 import { SearchBox } from '../Components/SearchBox'; // Custom component
 import { AddButton } from '../Components/Buttons/AddButton'; // Custom component
 
 // Filters component
-const ProjectFilters = ({ onTabChange }: { onTabChange: (tab: 'open' | 'archived') => void }) => {
-  const [activeTab, setActiveTab] = useState<'open' | 'archived'>('open');
+export const CustomerAvatar = ({ id }: { id: string }) => {
+  const { data } = useGetOne('project', { id });
+  const logo = useFieldValue({ source: 'project_logo', record: data });
+  const name = useFieldValue({ source: 'name', record: data });
+  return (<Avatar
+    src={logo}  // Set the image URL
+    alt={name}  // Set alt text as the project name
+    sx={{
+      width: 50,
+      height: 50,
+      objectFit: 'cover',
+      borderRadius: '50%',  // Make the image round
+      backgroundColor: '#2593D1',  // Use a color as fallback background
+      color: 'white',  // Text color for fallback
+      fontSize: 20,  // Text size for fallback
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    {!logo && name?.[0]}  
+  </Avatar> );
+};
+const ProjectFilters = ({ onTabChange }: { onTabChange: (tab: 'Open' | 'Archived') => void }) => {
+  const [activeTab, setActiveTab] = useState<'Open' | 'Archived'>('Open');
 
-  const handleTabChange = (tab: 'open' | 'archived') => {
+  const handleTabChange = (tab: 'Open' | 'Archived') => {
     setActiveTab(tab);
     onTabChange(tab);
   };
@@ -44,13 +71,13 @@ const ProjectFilters = ({ onTabChange }: { onTabChange: (tab: 'open' | 'archived
       }}
     >
       <Button
-        onClick={() => handleTabChange('open')}
+        onClick={() => handleTabChange('Open')}
         sx={{
           width: 148,
           height: 33,
           borderRadius: '32px',
           backgroundColor: '#2593D10D',
-          border: activeTab === 'open' ? '2px solid #025EA340' : 'none',
+          border: activeTab === 'Open' ? '2px solid #025EA340' : 'none',
           color: '#025EA3',
           fontWeight: 'bold',
           display: 'flex',
@@ -58,17 +85,17 @@ const ProjectFilters = ({ onTabChange }: { onTabChange: (tab: 'open' | 'archived
           justifyContent: 'center',
         }}
       >
-        {activeTab === 'open' && '✔'} Open
+        {activeTab === 'Open' && '✔'} Open
       </Button>
       <Box sx={{ marginLeft: 2 }}>
         <Button
-          onClick={() => handleTabChange('archived')}
+          onClick={() => handleTabChange('Archived')}
           sx={{
             width: 148,
             height: 33,
             borderRadius: '32px',
             backgroundColor: '#2593D10D',
-            border: activeTab === 'archived' ? '2px solid #025EA340' : 'none',
+            border: activeTab === 'Archived' ? '2px solid #025EA340' : 'none',
             color: '#025EA3',
             fontWeight: 'bold',
             display: 'flex',
@@ -76,7 +103,7 @@ const ProjectFilters = ({ onTabChange }: { onTabChange: (tab: 'open' | 'archived
             justifyContent: 'center',
           }}
         >
-          {activeTab === 'archived' && '✔'} Archived
+          {activeTab === 'Archived' && '✔'} Archived
         </Button>
       </Box>
     </Box>
@@ -84,32 +111,32 @@ const ProjectFilters = ({ onTabChange }: { onTabChange: (tab: 'open' | 'archived
 };
 
 // Custom DataGrid to show project data
+
 const CustomDatagrid = () => (
   <Datagrid
     bulkActionButtons={false}
     rowClick="edit"
     sx={{
       '& .RaDatagrid-headerCell': {
-        backgroundColor: '#f3f4f6',
+        backgroundColor: 'transparent',
+        color: '#05051780',
         fontWeight: 'bold',
+        padding: '10px 16px',
       },
       '& .RaDatagrid-row': {
         '&:hover': {
           backgroundColor: '#f9fafb',
         },
       },
-      backgroundColor: 'transparent', // Set the table background to transparent
-      border: 'none', // Remove table border
-      boxShadow: 'none', // Remove table shadow
+      backgroundColor: 'transparent',
+      border: 'none',
+      boxShadow: 'none',
     }}
   >
-    {/* Project Logo column: Displayed as a rounded image */}
-    <ImageField
-      source="project_logo"
-      label={false}  // No label for the image column
-      sx={{ '& img': { maxWidth: 50, maxHeight: 50, objectFit: 'contain', borderRadius: '50%' } }}
-    />
-    
+    {/* Project Logo column: Using MUI Avatar with fallback */}
+   < CustomerAvatar source=""/>
+      
+
     {/* Project Name */}
     <TextField source="name" label="Project Name" />
     
@@ -131,8 +158,6 @@ const CustomDatagrid = () => (
     <TextField source="files_completed" label="Files Completed" />
   </Datagrid>
 );
-
-
 
 // Project List component
 export const ProjectList = () => {
