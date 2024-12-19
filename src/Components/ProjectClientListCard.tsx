@@ -8,7 +8,7 @@ interface ClientListCardProps {
   sx?: object;
 }
 
-export const ClientListCard = ({
+export const ProjectClientListCard = ({
   title = "Group Five",
   subtitle = "Ayanda Mthembu",
   imageUrl = "https://via.placeholder.com/80",
@@ -23,8 +23,8 @@ export const ClientListCard = ({
         padding: 2,
         borderRadius: 2,
         boxShadow: '0px 0px 2px rgba(0, 0, 0, 0.1)', // Minimal shadow
-        maxWidth: 400,
-        maxHeight: 150,
+        maxWidth: 300,
+        maxHeight: 80,
         ...sx
       }}
       onClick={onClick}
@@ -34,7 +34,7 @@ export const ClientListCard = ({
         <Typography 
           variant="h6" 
           component="div" 
-          sx={{ fontWeight: 'bold', color: 'text.primary' }}
+          sx={{ fontWeight: 'bold', color: 'text.primary', fontSize: '13px' }}
         >
           {title}
         </Typography>
