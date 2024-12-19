@@ -42,7 +42,7 @@ import ContractorEdit from './Pages/Contractors/ContractorEdit';
 // import { ClientCreate } from './Supabase-Components/ClientList';
 import ClientCreate from './Pages/Clients/ClientCreate';
 import { ProjectCreate } from './Pages/Projects/ProjectCreate';
-import ProjectList from './Pages/Projects/ProjectList';
+import {ProjectList} from './Pages/Projects/ProjectList';
 import { ToastProvider } from './Components/Toast/ToastContext';
 
 
